@@ -8,7 +8,6 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   const wallet = getWallet();
   const account = getAccount();
 
-  console.log(account.address);
   const initialValue = 69420;
   const hash = await wallet.deployContract({
     abi,
