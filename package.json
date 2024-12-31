@@ -4,6 +4,10 @@
   "main": "index.js",
   "repository": "git@github.com:padimaster/holiday-hackathon.git",
   "author": "Alex Padilla <alex.padilla@epn.edu.ec>",
+  "scripts": {
+    "compile": "pnpm --filter contracts run compile",
+    "deploy": "pnpm --filter contracts run deploy-zksync"
+  },
   "license": "MIT",
   "engines": {
     "node": "20",
