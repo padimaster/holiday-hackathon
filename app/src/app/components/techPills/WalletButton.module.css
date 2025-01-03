@@ -1,24 +1,7 @@
 .walletButton {
-  border-radius: 34px;
-  background: var(--twitter-blue, #8000ff);
-  background-color: var(--twitter-blue, #8000ff);
   align-self: end;
   overflow: hidden;
   padding: 18px 39px;
-  font: 400 24px Roboto, sans-serif;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.walletButton:hover {
-  background-color: #6600cc;
-}
-
-.walletButton:focus {
-  outline: 2px solid white;
-  outline-offset: 2px;
 }
 
 @media (max-width: 991px) {

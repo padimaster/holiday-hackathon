@@ -5,14 +5,12 @@ import Image from "next/image";
 import { WalletButton } from "./WalletButton";
 import styles from "./TechPills.module.css";
 
+
 export const TechPills: React.FC = () => {
-  const handleWalletConnect = () => {
-    console.log("Wallet connect clicked");
-  };
 
   return (
     <div className={styles.login}>
-      <WalletButton onClick={handleWalletConnect} />
+      <WalletButton/>
       <Image
         src="logo-tech-pills.svg"
         className={styles.img}

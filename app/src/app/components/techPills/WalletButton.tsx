@@ -1,18 +1,36 @@
 import React from "react";
 import styles from "./WalletButton.module.css";
 
-interface WalletButtonProps {
-  onClick: () => void;
-}
+import { Web3Provider } from "@/app/providers/Web3Provider";
+import { ConnectKitButton } from "connectkit";
 
-export const WalletButton: React.FC<WalletButtonProps> = ({ onClick }) => {
+export const WalletButton: React.FC = () => {
   return (
-    <button
-      className={styles.walletButton}
-      onClick={onClick}
-      aria-label="Connect wallet"
-    >
-      CONNECT WALLET
-    </button>
+    <div className={styles.walletButton}>
+      <Web3Provider>
+        <ConnectKitButton customTheme={{
+          "--ck-connectbutton-font-size": "15px",
+          "--ck-connectbutton-color": "#ffffff",
+          "--ck-connectbutton-background": "#8000ff",
+          "--ck-connectbutton-background-secondary": "#FFFFFF",
+          "--ck-connectbutton-border-radius": "16px",
+          "--ck-connectbutton-box-shadow": "0 0 0 0 #ffffff",
+          "--ck-connectbutton-hover-color": "#373737",
+          "--ck-connectbutton-hover-background": "#F0F2F5",
+          "--ck-connectbutton-hover-box-shadow": "0 0 0 0 #ffffff",
+          "--ck-connectbutton-active-color": "#373737",
+          "--ck-connectbutton-active-background": "#EAECF1",
+          "--ck-connectbutton-active-box-shadow": "0 0 0 0 #ffffff",
+          "--ck-connectbutton-balance-color": "#373737",
+          "--ck-connectbutton-balance-background": "#fff",
+          "--ck-connectbutton-balance-box-shadow": "inset 0 0 0 1px #F6F7F9",
+          "--ck-connectbutton-balance-hover-background": "#F6F7F9",
+          "--ck-connectbutton-balance-hover-box-shadow": "inset 0 0 0 1px #F0F2F5",
+          "--ck-connectbutton-balance-active-background": "#F0F2F5",
+          "--ck-connectbutton-balance-active-box-shadow": "inset 0 0 0 1px #EAECF1"
+          }}
+        />
+      </Web3Provider>
+    </div>
   );
 };
