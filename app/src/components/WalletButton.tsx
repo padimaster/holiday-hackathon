@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./WalletButton.module.css";
 
-import { Web3Provider } from "@/app/providers/Web3Provider";
+import { Web3Provider } from "../providers/Web3Provider";
 import { ConnectKitButton } from "connectkit";
 
 export const WalletButton: React.FC = () => {

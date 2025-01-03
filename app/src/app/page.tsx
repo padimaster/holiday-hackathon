@@ -1,9 +1,9 @@
-import { TechPills } from "./components/techPills/TechPills";
+import { Login } from "./login/LoginPage";
 
 export default function Home() {
   return (
     <main>
-      <TechPills />
+      <Login />
     </main>
   );
 }

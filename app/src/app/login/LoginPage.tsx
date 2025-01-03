@@ -2,11 +2,11 @@
 
 import React from "react";
 import Image from "next/image";
-import { WalletButton } from "./WalletButton";
-import styles from "./TechPills.module.css";
+import { WalletButton } from "@/components/WalletButton";
+import styles from "./LoginPage.module.css";
 
 
-export const TechPills: React.FC = () => {
+export const Login: React.FC = () => {
 
   return (
     <div className={styles.login}>
