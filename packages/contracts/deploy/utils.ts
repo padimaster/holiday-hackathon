@@ -9,10 +9,6 @@ dotenv.config();
 export const getPublicClient = () => {
   console.log(chains.testnet);
   return createPublicClient({
-export const getPublicClient = () => {
-  console.log(chains.testnet);
-
-  return createPublicClient({
     chain: chains.testnet,
     transport: http(),
   });
