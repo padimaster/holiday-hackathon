@@ -5,13 +5,16 @@ import { chains } from "@lens-network/sdk/viem";
 import LensFactoryABI from "../lib/lens/abis/LensFactory.json";
 
 export function useUsername() {
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const { address, isConnected } = useAccount();
   const { writeContractAsync } = useWriteContract();
   
   const createUsername = async () => {
-
-    if (!isConnecting && isDisconnected) {
-      const data = writeContractAsync({
+    console.log("createUsername called");
+    console.log("Wallet Address: ",address);
+    console.log("isConnected: ", isConnected);
+    if (isConnected) {
+      console.log("connected calling writeContractAsync");
+      const data = await writeContractAsync({
         chainId: chains.testnet.id,
         address: "0xbD7EAFA4Df7EC8DDC8Ca50Fbc29659B10FDD1a3e",
         functionName: "deployUsername",
@@ -23,8 +26,8 @@ export function useUsername() {
           [],
           [],
           [],
-          "pr1",
-          "pr1"
+          "pr2",
+          "pr2"
         ]
       });
       console.log(data);
