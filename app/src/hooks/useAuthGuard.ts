@@ -9,7 +9,7 @@ export function useAuthGuard() {
 
   useEffect(() => {
     if (!isConnecting && isDisconnected) {
-      router.push('/auth/login')
+      router.push('/login')
     }
   }, [isConnecting, isDisconnected, router])
 

@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { chains } from "@lens-network/sdk/viem";
 import { ReactNode } from "react";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 
 const config = createConfig(
   getDefaultConfig({
@@ -32,6 +32,8 @@ const config = createConfig(
 const queryClient = new QueryClient();
 
 export const Web3Provider = ({ children }: { children: ReactNode }) => {
+  const router = useRouter()
+  
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
@@ -62,6 +64,10 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
           onConnect={() => {
             router.push('/home')
             console.log("Connected");
+          }}
+          onDisconnect={() => {
+            router.push('/login')
+            console.log("Disconnected");
           }}
         >
           {children}

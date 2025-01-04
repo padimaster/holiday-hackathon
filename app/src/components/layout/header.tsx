@@ -6,9 +6,9 @@ import Logo from "../common/logo";
 
 export default function Header() {
   return (
-    <header className="flex justify-between items-center py-4 px-8">
+    <header className="fixed top-0 w-full z-50">
       <div>
-        <Logo />
+        <Logo width={30} height={30}/>
       </div>
       <Button
         asChild
