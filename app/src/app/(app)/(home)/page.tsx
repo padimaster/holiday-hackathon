@@ -1,10 +1,12 @@
-// app/page.tsx
+'use client';
+
 import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 import { getPosts } from "@/actions/post";
 import CreatePost from "@/components/post/create-post/create-post";
 import PostItem from "@/components/post/post-item";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 
 async function Posts() {
   const posts = await getPosts();
@@ -31,6 +33,7 @@ async function Posts() {
 }
 
 export default function Home() {
+  useAuthGuard();
   return (
     <main className="divide-y divide-gray-800">
       <div className="border-b border-gray-800">
