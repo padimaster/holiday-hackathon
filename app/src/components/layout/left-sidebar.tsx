@@ -44,6 +44,10 @@ export default function LeftSidebar() {
     },
   ];
 
+  const handleButton = () => {
+    console.log('Button clicked');
+  }
+
   return (
     <div className="sticky top-0 flex flex-col h-screen w-72 bg-black p-6">
       {/* Logo */}
@@ -83,6 +87,7 @@ export default function LeftSidebar() {
         <Button 
           className="w-full bg-purple-600 hover:bg-purple-700 text-white py-6 text-base font-medium rounded-xl"
           size="lg"
+          onClick={handleButton}
         >
           Drop
         </Button>
