@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { chains } from "@lens-network/sdk/viem";
 import { ReactNode } from "react";
+import router from "next/router";
 
 const config = createConfig(
   getDefaultConfig({
@@ -57,6 +58,10 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
             "--ck-connectbutton-balance-active-background": "#F0F2F5",
             "--ck-connectbutton-balance-active-box-shadow":
               "inset 0 0 0 1px #EAECF1",
+          }}
+          onConnect={() => {
+            router.push('/home')
+            console.log("Connected");
           }}
         >
           {children}
