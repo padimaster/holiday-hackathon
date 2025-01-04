@@ -1,12 +1,16 @@
+"use client"
+
 import RightSidebar from "@/components/layout/right-sidebar";
 import LeftSidebar from "@/components/layout/left-sidebar";
 import SearchBar from "@/components/layout/search-bar";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  useAuthGuard();
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="flex relative">
