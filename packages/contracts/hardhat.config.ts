@@ -1,6 +1,12 @@
 import "@matterlabs/hardhat-zksync";
 import type { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox-viem";
+import "@nomicfoundation/hardhat-chai-matchers";
+import "@nomicfoundation/hardhat-toolbox";
+import "@nomiclabs/hardhat-solhint";
+import "@nomicfoundation/hardhat-ignition-ethers";
+import "@nomiclabs/hardhat-ethers";
+import "@matterlabs/hardhat-zksync-deploy"
+
 
 const config: HardhatUserConfig = {
   solidity: "0.8.28",

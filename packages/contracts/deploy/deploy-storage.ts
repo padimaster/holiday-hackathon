@@ -1,5 +1,5 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { getAccount, getPublicClient, getWallet } from "./utils";
+import { getAccount, getPublicClient, getWallet } from "../deploy/utils";
 import contract from "../artifacts-zk/contracts/Storage.sol/Storage.json";
 
 export default async function (hre: HardhatRuntimeEnvironment) {
