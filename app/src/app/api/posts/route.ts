@@ -1,18 +1,66 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { prisma } from '@/lib/prisma/prisma';
+import { NextRequest, NextResponse } from 'next/server';
+import { connectDB } from '@/db/connection';
+import { Post } from '@/db/models/post';
+import { Profile } from '@/db/models/profile';
+import { Types } from 'mongoose';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    const posts = await prisma.post.findMany();
-    res.status(200).json(posts);
-  } else if (req.method === 'POST') {
-    const { title, content, profileId } = req.body;
-    const post = await prisma.post.create({
-      data: { title, content, profileId, imageUrl: '', profile: { connect: { id: profileId } } },
+export async function GET() {
+  try {
+    await connectDB();
+    
+    const posts = await Post.find()
+      .populate({
+        path: 'profileId',
+        model: Profile,
+      })
+      .sort({ createdAt: -1 });
+
+    return NextResponse.json(
+      { success: true, data: posts },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to fetch posts' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    await connectDB();
+    const formData = await request.formData();
+
+    const title = "title_001"; // TODO: Get from formData
+    const content = formData.get("content") as string;
+    const profileId = new Types.ObjectId("60f1b9e3f3b3f3b3f3b3f3b3"); // TODO: Get from auth
+    const imageUrl = "null";
+
+    if (!content) {
+      return NextResponse.json(
+        { success: false, error: 'Content is required' },
+        { status: 400 }
+      );
+    }
+
+    const post = await Post.create({
+      title,
+      content,
+      profileId,
+      imageUrl,
     });
-    res.status(201).json(post);
-  } else {
-    res.setHeader('Allow', ['GET', 'POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+
+    return NextResponse.json(
+      { success: true, data: post},
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Error creating post:", error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to create post' },
+      { status: 500 }
+    );
   }
 }

@@ -3,7 +3,6 @@
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { createPost } from "@/actions/post";
 import { useFormStatus } from "react-dom";
 import { PenLine, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -12,37 +11,46 @@ import { cn } from "@/lib/utils";
 import { MarkdownPreview } from "./markdown-preview";
 import { MarkdownTips } from "./markdown-tips";
 import { ImageUpload } from "./image-upload";
+import { useCreatePost } from "@/hooks/post/use-post";
 
 export default function CreatePost() {
   const [content, setContent] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isPreview, setIsPreview] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
-  const imageInputRef = useRef<HTMLInputElement>(null) as React.RefObject<HTMLInputElement>;
+  const imageInputRef = useRef<HTMLInputElement>(
+    null
+  ) as React.RefObject<HTMLInputElement>;
   const { toast } = useToast();
+  const createPostMutation = useCreatePost();
 
-  async function handleSubmit(formData: FormData) {
+  const handleSubmit = async (formData: FormData) => {
     if (!content.trim()) return;
+    
+    try {
+      const result = await createPostMutation.mutateAsync(formData);
 
-    const result = await createPost(formData);
-
-    if (result.success) {
-      setContent("");
-      setImagePreview(null);
-      setIsPreview(false);
-      formRef.current?.reset();
-      toast({
-        title: "Success",
-        description: "Your tech pill has been posted!",
-      });
-    } else {
+      if (result) {
+        setContent("");
+        setImagePreview(null);
+        setIsPreview(false);
+        formRef.current?.reset();
+        toast({
+          title: "Success",
+          description: "Your tech pill has been posted!",
+        });
+      }
+    } catch (error) {
       toast({
         title: "Error",
-        description: result.error || "Failed to post. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to post. Please try again.",
         variant: "destructive",
       });
     }
-  }
+  };
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

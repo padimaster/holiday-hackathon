@@ -13,7 +13,7 @@ import {
   Zap,
   Edit2,
 } from "lucide-react";
-import { Profile } from "@/types/profile";
+import { IProfile } from "@/db/models/profile";
 import {
   Tooltip,
   TooltipContent,
@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/tooltip";
 
 interface UserProfileProps {
-  profile: Profile;
+  profile: IProfile;
   isOwner?: boolean;
 }
 

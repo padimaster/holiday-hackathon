@@ -3,7 +3,7 @@ import { Loader2 } from "lucide-react";
 import CreatePost from "@/components/post/create-post/create-post";
 import Posts from "./components/posts";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <main className="divide-y divide-gray-800">
       <div className="border-b border-gray-800">

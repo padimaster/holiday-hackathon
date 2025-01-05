@@ -1,9 +1,9 @@
 // app/[handle]/layout.tsx
 import { notFound } from "next/navigation";
-import { getProfile } from "@/actions/profile";
 import { UserProfile } from "@/components/profile/profile";
 import NavTabs from "@/components/profile/nav-tabs";
 import { Suspense } from "react";
+import { getProfileByHandle } from "@/services/profile.service";
 
 interface ProfileLayoutProps {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ export default async function ProfileLayout({
   params,
 }: ProfileLayoutProps) {
   const { handle } = await params;
-  const profile = await getProfile(handle);
+  const profile = await getProfileByHandle(handle);
 
   if (!profile) {
     notFound();
