@@ -1,56 +1,58 @@
 "use server";
 
-import { Post } from "@/types/post";
+import { prisma } from "@/lib/prisma/prisma";
 
 export async function createPost(formData: FormData) {
   // Create post
-  uploadImage(formData.get("image") as File);
+  // const image = formData.get("image") as File;
+  const title = formData.get("title") as string;
+  const content = formData.get("content") as string;
+  const profileId = formData.get("profileId") as string;
+
+  // Assuming uploadImage is a function that uploads the image and returns the URL
+  // const imageUrl = await uploadImage(image);
+  const imageUrl = "null";
+
+  const post = await prisma.post.create({
+    data: {
+      title,
+      content,
+      profileId,
+      imageUrl,
+    },
+  });
+
   return {
     success: true,
     error: "",
-    data: formData,
+    data: post,
   };
 }
 
 export async function getPosts() {
   try {
-    return [
-      {
-        id: "1",
-        content: "Example tech pill about web3",
-        author: {
-          address: "0x123",
-          name: "Alice",
-          handle: "alice",
-          avatar: "https://avatars.dicebear.com/api/avataaars/alice.svg",
-        },
-        createdAt: new Date(),
-        likes: 0,
-        reposts: 0,
-        replies: 0,
+    const posts = await prisma.post.findMany({
+      include: {
+        profile: true,
       },
-      {
-        id: "2",
-        content: "Example tech pill about web3",
-        author: {
-          address: "0x123",
-          name: "Alice",
-          handle: "alice",
-          avatar: "https://avatars.dicebear.com/api/avataaars/alice.svg",
-        },
-        createdAt: new Date(),
-        likes: 0,
-        reposts: 0,
-        replies: 0,
+    });
+
+    return posts.map(post => ({
+      id: post.id,
+      title: post.title,
+      content: post.content,
+      imageUrl: post.imageUrl,
+      author: {
+        address: post.profile.address,
+        name: post.profile.name,
+        handle: post.profile.handle,
+        avatar: post.profile.avatar,
       },
-    ] as Post[];
+      createdAt: post.createdAt,
+      likes: 0, // Assuming likes are not yet implemented
+    }));
   } catch (error) {
     console.error("Error fetching posts:", error);
     return [];
   }
-}
-
-async function uploadImage(file: File): Promise<string> {
-  // TODO: Upload image to IPFS
-  return file.name;
 }
