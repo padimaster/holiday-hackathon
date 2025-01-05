@@ -12,7 +12,8 @@ import {
   MoreHorizontal,
   Pill
 } from 'lucide-react';
-import { useUsername } from '@/hooks/useUsername';
+import { useLensFactory } from '@/hooks/contracts/useLensFactory';
+// import { useUsername } from '@/hooks/contracts/useUsername';
 
 export default function LeftSidebar() {
   const pathname = usePathname();
@@ -45,10 +46,13 @@ export default function LeftSidebar() {
     },
   ];
 
-  const { createUsername } = useUsername();
-
+  const { createUsername } = useLensFactory();
+  // const { assignUsername, username } = useUsername();
+  
   const handleButton = async () => {
     await createUsername();
+    // await assignUsername();
+    // console.log(username)
   }
 
   return (

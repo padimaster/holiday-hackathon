@@ -2,23 +2,18 @@
 
 import { useAccount, useWriteContract } from "wagmi";
 import { chains } from "@lens-network/sdk/viem";
-import LensFactoryABI from "../lib/lens/abis/LensFactory.json";
+import ContractABI from "../../lib/lens/abis/LensFactory.json";
 
-export function useUsername() {
-  const { address, isConnected } = useAccount();
+export function useLensFactory() {
+  const { address } = useAccount();
   const { writeContractAsync } = useWriteContract();
   
   const createUsername = async () => {
-    console.log("createUsername called");
-    console.log("Wallet Address: ",address);
-    console.log("isConnected: ", isConnected);
-    if (isConnected) {
-      console.log("connected calling writeContractAsync");
       const data = await writeContractAsync({
         chainId: chains.testnet.id,
         address: "0xbD7EAFA4Df7EC8DDC8Ca50Fbc29659B10FDD1a3e",
         functionName: "deployUsername",
-        abi: LensFactoryABI,
+        abi: ContractABI,
         args: [
           "techpills.xyz",
           "",
@@ -26,13 +21,12 @@ export function useUsername() {
           [],
           [],
           [],
-          "pr2",
-          "pr2"
+          "pr3",
+          "pr3"
         ]
       });
-      console.log(data);
+      console.log(data)
       return data;
-    }
   };
 
   return {
