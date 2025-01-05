@@ -34,7 +34,7 @@ export default function RootLayout({
             </div>
           </header>
 
-          <div className="max-w-2xl mx-auto py-4">{children}</div>
+          <div>{children}</div>
         </main>
       </div>
     </div>

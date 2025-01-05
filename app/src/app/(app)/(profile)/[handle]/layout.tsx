@@ -1,8 +1,9 @@
 // app/[handle]/layout.tsx
-import Link from "next/link";
-//import { UserProfile } from "./components/user-profile";
 import { notFound } from "next/navigation";
 import { getProfile } from "@/actions/profile";
+import { UserProfile } from "@/components/profile/profile";
+import NavTabs from "@/components/profile/nav-tabs";
+import { Suspense } from "react";
 
 interface ProfileLayoutProps {
   children: React.ReactNode;
@@ -15,47 +16,31 @@ export default async function ProfileLayout({
   children,
   params,
 }: ProfileLayoutProps) {
-  const profile = await getProfile(params.handle);
+  const { handle } = await params;
+  const profile = await getProfile(handle);
 
   if (!profile) {
     notFound();
   }
 
   return (
-    <div>
-      {/* Profile Info Section 
-      <UserProfile profile={profile} />
-      */}
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900">
+      <Suspense fallback={<div>Loading profile...</div>}>
+        {/* Profile Info Section */}
+        <UserProfile profile={profile} />
 
-      {/* Navigation Tabs */}
-      <nav className="border-b border-gray-800">
-        <div className="flex items-center">
-          <TabLink href={`/${params.handle}`}>Pills</TabLink>
-          <TabLink href={`/${params.handle}/paths`}>Paths</TabLink>
-          <TabLink href={`/${params.handle}/feeds`}>Feeds</TabLink>
-          <TabLink href={`/${params.handle}/tips`}>Tips</TabLink>
-        </div>
-      </nav>
+        {/* Navigation Tabs */}
+        <NavTabs handle={handle} />
 
-      {/* Content Area */}
-      <div className="divide-y divide-gray-800">{children}</div>
+        {/* Content Area */}
+        <main className="max-w-2xl mx-auto px-4">
+          <div className="divide-y divide-gray-800">
+            <Suspense fallback={<div>Loading content...</div>}>
+              {children}
+            </Suspense>
+          </div>
+        </main>
+      </Suspense>
     </div>
-  );
-}
-
-function TabLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Link
-      href={href}
-      className="flex-1 px-6 py-4 text-center text-gray-500 hover:bg-gray-900/50 hover:text-gray-300 transition-colors [&.active]:text-purple-500 [&.active]:border-b-2 [&.active]:border-purple-500"
-    >
-      {children}
-    </Link>
   );
 }
