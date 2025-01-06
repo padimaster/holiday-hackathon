@@ -93,7 +93,6 @@ export const getPostsByHandle = async ({
 };
 
 export const getAllPosts = async ({
-  populate = false,
   limit = 10,
   offset = 0,
 }: QueryOptions = {}): Promise<{
@@ -103,26 +102,17 @@ export const getAllPosts = async ({
   connectDB();
   const query = Post.find().sort({ createdAt: -1 }).skip(offset).limit(limit);
 
-  if (populate) {
-    const [posts, total] = await Promise.all([
-      query.populate({
-        path: 'profileId',
-        select: '_id handle name avatar',
-        model: 'Profile',
-      }),
-      Post.countDocuments(),
-    ]);
-
-    return {
-      data: posts.map((post) => parsePopulatedPost(post)),
-      total,
-    };
-  }
-
-  const [posts, total] = await Promise.all([query, Post.countDocuments()]);
+  const [posts, total] = await Promise.all([
+    query.populate({
+      path: 'profileId',
+      select: '_id handle name avatar',
+      model: 'Profile',
+    }),
+    Post.countDocuments(),
+  ]);
 
   return {
-    data: posts.map(parsePost),
+    data: posts.map((post) => parsePopulatedPost(post)),
     total,
   };
 };

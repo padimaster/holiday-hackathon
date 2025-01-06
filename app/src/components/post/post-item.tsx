@@ -1,4 +1,3 @@
-// components/post/post-item.tsx
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatDistanceToNow } from 'date-fns';
 import PostActions from './post-actions';
@@ -21,19 +20,29 @@ export default function PostItem({ post }: PostItemProps) {
     }
   };
 
+  // Debug log
+  console.log('Rendering post:', post);
+
+  // Safe access to profile with fallbacks
+  const profileData = {
+    name: post?.profile?.name || 'Anonymous',
+    handle: post?.profile?.handle || 'user',
+    avatar: post?.profile?.avatar || '',
+  };
+
   return (
     <article className='transition-colors hover:bg-gray-900/50'>
       <div className='px-4 py-3'>
         <div className='flex gap-3'>
           <Avatar className='h-10 w-10 flex-shrink-0'>
-            <AvatarImage src={post.profile.avatar} />
-            <AvatarFallback>{post.profile.name[0]}</AvatarFallback>
+            <AvatarImage src={profileData.avatar} />
+            <AvatarFallback>{profileData.name[0]}</AvatarFallback>
           </Avatar>
 
           <div className='min-w-0 flex-1'>
             <div className='flex items-center gap-2 text-sm'>
-              <span className='truncate font-medium'>{post.profile.name}</span>
-              <span className='text-gray-500'>@{post.profile.handle}</span>
+              <span className='truncate font-medium'>{profileData.name}</span>
+              <span className='text-gray-500'>@{profileData.handle}</span>
               <span className='text-gray-500'>·</span>
               <span className='text-gray-500'>
                 {formatDistanceToNow(new Date(post.createdAt), {
