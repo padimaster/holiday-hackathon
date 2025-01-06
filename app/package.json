@@ -6,14 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-<<<<<<< HEAD
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore ."
-=======
-    "lint": "next lint"
->>>>>>> 0de49bc33ce6d6ae1d24e9d5042f1a884541ce18
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -52,14 +48,9 @@
     "siwe": "^2.3.2",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
-<<<<<<< HEAD
     "viem": "~2.21.60",
     "wagmi": "^2.14.6",
     "zod": "^3.24.1"
-=======
-    "viem": "2.x",
-    "wagmi": "^2.14.6"
->>>>>>> 0de49bc33ce6d6ae1d24e9d5042f1a884541ce18
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
