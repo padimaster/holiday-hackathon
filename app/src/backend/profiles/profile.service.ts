@@ -24,7 +24,7 @@ export const findByHandle = async (
   handle: string
 ): Promise<CompleteProfile | null> => {
   await connectDB();
-  const profile = await Profile.findOne({ handle }).maxTimeMS(10000);
+  const profile = await Profile.findOne({ handle });
 
   if (!profile) {
     return null;
@@ -37,7 +37,7 @@ export const findByAddress = async (
   address: string
 ): Promise<CompleteProfile | null> => {
   await connectDB();
-  const profile = await Profile.findOne({ address }).maxTimeMS(10000);
+  const profile = await Profile.findOne({ address });
 
   if (!profile) {
     return null;
@@ -133,29 +133,3 @@ export const query = async (
 
   return profiles.map(toMinimalProfile);
 };
-
-export const getMinimalProfile = async (
-  param: string
-): Promise<MinimalProfile | null> => {
-  await connectDB();
-  const profile = await Profile.findOne(
-    {
-      $or: [{ _id: param }, { handle: param }, { address: param }],
-    },
-    { _id: 1, handle: 1, name: 1, avatar: 1 }
-  ).maxTimeMS(5000);
-
-  if (!profile) {
-    return null;
-  }
-
-  return toMinimalProfile(profile);
-};
-export const profileService = {
-  findByHandle,
-  findByAddress,
-  create,
-  update,
-  query,
-  getMinimalProfile,
-} as const;

@@ -4,14 +4,14 @@ import PostItem from "@/components/post/post-item";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSession } from "next-auth/react";
-import { usePosts } from "@/hooks/post/use-post";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { IPopulatedPost } from "@/backend/posts";
+import { useAllPosts } from "@/hooks/post/use-posts";
 
 export default function Posts() {
   const { data: session } = useSession();
-  const handle = session?.user?.handle || "";
+  const handle = session?.user?.profile?.handle || "";
 
   const { ref, inView } = useInView();
 
@@ -22,10 +22,9 @@ export default function Posts() {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = usePosts({
+  } = useAllPosts({
     populate: true,
     limit: 10,
-    handle,
     enabled: !!handle,
   });
 

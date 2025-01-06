@@ -2,9 +2,15 @@ import { Post } from "./post.model";
 import { ICreatePostDto, IUpdatePostDto } from "./post.type";
 import { PostErrorCode, ERROR_DEFINITIONS } from "./post.error";
 import { IPost, IPopulatedPost } from "./post.type";
-import { getMinimalProfile } from "../profiles/profile.service";
 import { parsePost, parsePopulatedPost } from "./post.lib";
 import { connectDB } from "../database/connection";
+import { findByHandle } from "../profiles";
+
+interface QueryOptions {
+  populate?: boolean;
+  limit?: number;
+  offset?: number;
+}
 
 export const createPost = async (
   createPostDto: ICreatePostDto
@@ -15,10 +21,13 @@ export const createPost = async (
   return parsePost(savedPost);
 };
 
-export const getPostById = async (
-  postId: string,
-  populate: boolean = false
-): Promise<IPost | IPopulatedPost> => {
+export const getPostById = async ({
+  postId,
+  populate = false,
+}: {
+  postId: string;
+  populate?: boolean;
+}): Promise<IPost | IPopulatedPost> => {
   connectDB();
   const query = Post.findById(postId);
 
@@ -42,10 +51,13 @@ export const getPostById = async (
   return parsePost(post);
 };
 
-export const updatePost = async (
-  postId: string,
-  updatePostDto: IUpdatePostDto
-): Promise<IPost> => {
+export const updatePost = async ({
+  postId,
+  updatePostDto,
+}: {
+  postId: string;
+  updatePostDto: IUpdatePostDto;
+}): Promise<IPost> => {
   connectDB();
   const updatedPost = await Post.findByIdAndUpdate(
     postId,
@@ -60,18 +72,26 @@ export const updatePost = async (
   return parsePost(updatedPost);
 };
 
-export const getPostsByHandle = async (
-  handle: string,
-  populate: boolean = false,
-  limit: number = 10,
-  offset: number = 0
-): Promise<{
+export const getPostsByHandle = async ({
+  handle,
+  populate = false,
+  limit = 10,
+  offset = 0,
+}: {
+  handle: string;
+} & QueryOptions): Promise<{
   posts: Array<IPost | IPopulatedPost>;
   total: number;
 }> => {
   connectDB();
-  const profile = await getMinimalProfile(handle);
+  const profile = await findByHandle(handle);
+
+  console.log("profile:", profile);
   const profileId = profile?._id;
+
+  if (!profileId) {
+    return { posts: [], total: 0 };
+  }
 
   const query = Post.find({ profileId })
     .sort({ createdAt: -1 })
@@ -105,11 +125,11 @@ export const getPostsByHandle = async (
   };
 };
 
-export const getAllPosts = async (
-  populate: boolean = false,
-  limit: number = 10,
-  offset: number = 0
-): Promise<{
+export const getAllPosts = async ({
+  populate = false,
+  limit = 10,
+  offset = 0,
+}: QueryOptions = {}): Promise<{
   posts: Array<IPost | IPopulatedPost>;
   total: number;
 }> => {

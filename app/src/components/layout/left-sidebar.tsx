@@ -1,47 +1,43 @@
 "use client";
 
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { 
-  Home, 
-  Compass, 
-  Bell, 
-  User, 
-  MoreHorizontal,
-  Pill
-} from 'lucide-react';
-import { useUsername } from '@/hooks/useUsername';
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Home, Compass, Bell, User, MoreHorizontal, Pill } from "lucide-react";
+import { useUsername } from "@/hooks/useUsername";
+import { useSession } from "next-auth/react";
 
 export default function LeftSidebar() {
   const pathname = usePathname();
-  
+  const { data: session } = useSession();
+  const handle = session?.user?.profile?.handle;
+
   const navItems = [
     {
-      title: 'Home',
+      title: "Home",
       icon: Home,
-      href: '/home',
+      href: "/home",
     },
     {
-      title: 'Explore',
+      title: "Explore",
       icon: Compass,
-      href: '/explore',
+      href: "/explore",
     },
     {
-      title: 'Notifications',
+      title: "Notifications",
       icon: Bell,
-      href: '/notifications',
+      href: "/notifications",
     },
     {
-      title: 'Profile',
+      title: "Profile",
       icon: User,
-      href: '/profile',
+      href: `/${handle}`,
     },
     {
-      title: 'More',
+      title: "More",
       icon: MoreHorizontal,
-      href: '/more',
+      href: "/more",
     },
   ];
 
@@ -49,7 +45,7 @@ export default function LeftSidebar() {
 
   const handleButton = async () => {
     await createUsername();
-  }
+  };
 
   return (
     <div className="sticky top-0 flex flex-col h-screen w-72 bg-black p-6">
@@ -63,22 +59,24 @@ export default function LeftSidebar() {
       <nav className="space-y-1">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
-          
+
           return (
             <Link
               key={item.title}
               href={item.href}
               className={cn(
-                'flex items-center gap-3 px-4 py-3 rounded-lg transition-colors',
-                isActive 
-                  ? 'bg-purple-600 text-white font-medium'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-900'
+                "flex items-center gap-3 px-4 py-3 rounded-lg transition-colors",
+                isActive
+                  ? "bg-purple-600 text-white font-medium"
+                  : "text-gray-300 hover:text-white hover:bg-gray-900"
               )}
             >
-              <item.icon className={cn(
-                "h-6 w-6",
-                isActive ? "text-white" : "text-gray-300"
-              )} />
+              <item.icon
+                className={cn(
+                  "h-6 w-6",
+                  isActive ? "text-white" : "text-gray-300"
+                )}
+              />
               <span className="text-base">{item.title}</span>
             </Link>
           );
@@ -87,7 +85,7 @@ export default function LeftSidebar() {
 
       {/* Drop Button */}
       <div className="mt-auto">
-        <Button 
+        <Button
           className="w-full bg-purple-600 hover:bg-purple-700 text-white py-6 text-base font-medium rounded-xl"
           size="lg"
           onClick={handleButton}

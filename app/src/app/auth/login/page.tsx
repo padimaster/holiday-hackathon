@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Logo from "@/components/common/logo";
 
-import { ConnectButton } from "@/components/common/connect-button";
+import { AuthButton } from "@/components/auth/auth-button";
 
 export default function Home() {
   return (
@@ -15,7 +15,7 @@ export default function Home() {
             <Logo width={48} height={48} />
             <span className="text-xl font-bold">Tech Pills</span>
           </div>
-          <ConnectButton></ConnectButton>
+          <AuthButton />
         </div>
       </nav>
 
@@ -72,8 +72,7 @@ export default function Home() {
           className="w-full h-full"
           style={{
             backgroundImage: `
-              linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(61, 31, 87, 0.8)),
-              url('/path-to-your-image.jpg')
+              linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(61, 31, 87, 0.8))
             `,
             backgroundSize: "cover",
             backgroundPosition: "center",

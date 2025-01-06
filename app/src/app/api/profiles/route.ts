@@ -1,4 +1,4 @@
-import { profileService } from "@/backend/profiles/profile.service";
+import { create, query } from "@/backend/profiles";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
         : undefined,
     };
 
-    const profiles = await profileService.query(params);
+    const profiles = await query(params);
     return NextResponse.json(profiles);
   } catch (error) {
     return NextResponse.json(
@@ -33,7 +33,8 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const profile = await profileService.create(body);
+    console.log(body);
+    const profile = await create(body);
 
     if (!profile) {
       return NextResponse.json(

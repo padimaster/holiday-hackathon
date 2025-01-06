@@ -1,16 +1,9 @@
+"use client";
 import { ConnectKitProvider } from "connectkit";
-import { getCsrfToken, signIn } from "next-auth/react";
-import React from "react";
-import { SiweMessage } from "siwe";
-import { useAccount, useChainId, useSignMessage } from "wagmi";
 
 export default function CustomConnectKitProvider({
   children,
 }: React.PropsWithChildren) {
-  const { address } = useAccount();
-  const chainId = useChainId();
-  const { signMessageAsync } = useSignMessage();
-
   return (
     <ConnectKitProvider
       customTheme={{
@@ -38,28 +31,6 @@ export default function CustomConnectKitProvider({
       }}
       onConnect={async () => {
         try {
-          const message = new SiweMessage({
-            domain: window.location.host,
-            address: address,
-            statement: "Sign in with Ethereum to the app.",
-            uri: window.location.origin,
-            version: "1",
-            chainId: chainId,
-            nonce: await getCsrfToken(),
-          });
-
-          const signature = await signMessageAsync({
-            message: message.prepareMessage(),
-          });
-
-          signIn("credentials", {
-            message: JSON.stringify(message),
-            redirect: false,
-            signature,
-            callbackUrl: "/home",
-          });
-
-          console.log("Connected");
         } catch (error) {
           window.alert(error);
         }

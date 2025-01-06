@@ -22,18 +22,25 @@ export const siweConfig: SIWEConfig = {
       address,
       chainId,
       nonce,
-      // Human-readable ASCII assertion that the user will sign, and it must not contain `\n`.
-      statement: "Sign in With Ethereum.",
+      statement: "Sign in with your wallet.",
     }).prepareMessage(),
-  verifyMessage: async ({ message, signature }) =>
-    fetch("/api/siwe/verify", {
+  verifyMessage: async ({ message, signature }) => {
+    const response = await fetch("/api/siwe/verify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ message, signature }),
-    }).then((res) => res.ok),
-  getSession: async () =>
-    fetch("/api/siwe/session").then((res) => (res.ok ? res.json() : null)),
+    });
+
+    const data = await response.json();
+
+    return data.ok;
+  },
+  getSession: async () => {
+    const response = await fetch("/api/siwe/session");
+
+    return response.ok ? response.json() : null;
+  },
   signOut: async () => fetch("/api/siwe/logout").then((res) => res.ok),
 };

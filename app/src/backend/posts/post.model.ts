@@ -28,5 +28,5 @@ const postSchema = new Schema<IPostDB>({
 export const Post = models.Post || model<IPostDB>("Post", postSchema);
 
 export interface IPopulatedPostDB extends Omit<IPostDB, "profileId"> {
-  profile: MinimalProfile;
+  profileId: MinimalProfile;
 }

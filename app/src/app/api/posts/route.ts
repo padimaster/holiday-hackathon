@@ -14,13 +14,25 @@ export async function GET(request: NextRequest) {
     const handle = searchParams.get("handle");
 
     if (handle) {
-      const result = await getPostsByHandle(handle, populate, limit, offset);
+      // Ensure we're passing parameters in the correct order/structure
+      const result = await getPostsByHandle({
+        handle,
+        populate,
+        limit,
+        offset,
+      });
       return NextResponse.json(result);
     }
 
-    const result = await getAllPosts(populate, limit, offset);
+    // Pass parameters as an object
+    const result = await getAllPosts({
+      populate,
+      limit,
+      offset,
+    });
     return NextResponse.json(result);
   } catch (error) {
+    console.error("Error fetching posts:", error);
     return NextResponse.json(
       {
         error: error instanceof Error ? error.message : "Internal Server Error",
@@ -36,6 +48,7 @@ export async function POST(request: NextRequest) {
     const post = await createPost(body);
     return NextResponse.json(post, { status: 201 });
   } catch (error) {
+    console.error("Error creating post:", error);
     return NextResponse.json(
       {
         error: error instanceof Error ? error.message : "Internal Server Error",

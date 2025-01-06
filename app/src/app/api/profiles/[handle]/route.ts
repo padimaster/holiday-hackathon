@@ -1,4 +1,4 @@
-import { profileService } from "@/backend/profiles/profile.service";
+import { findByHandle, update } from "@/backend/profiles";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -7,7 +7,7 @@ export async function GET(
 ) {
   try {
     const { handle } = await params;
-    const profile = await profileService.findByHandle(handle);
+    const profile = await findByHandle(handle);
 
     if (!profile) {
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
@@ -31,7 +31,7 @@ export async function PATCH(
   try {
     const { handle } = await params;
     const body = await request.json();
-    const profile = await profileService.update(handle, body);
+    const profile = await update(handle, body);
 
     if (!profile) {
       return NextResponse.json(

@@ -1,97 +1,119 @@
 import { DefaultSession, NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { getMinimalProfile, MinimalProfile } from "@/backend/profiles";
-import { SiweMessage } from "siwe";
-import { getCsrfToken } from "next-auth/react";
+import { findByAddress, MinimalProfile } from "@/backend/profiles";
+import { getIronSession } from "iron-session";
+import { sessionOptions } from "@/utils/session.options";
+import { cookies } from "next/headers";
 
 declare module "next-auth" {
   interface Session {
     user: {
       id: string;
-    } & DefaultSession["user"] &
-      MinimalProfile;
+      address: string;
+      chainId: number;
+      profile: MinimalProfile;
+    } & DefaultSession["user"];
   }
   interface User {
-    profile: MinimalProfile | null;
+    address: string;
+    chainId: number;
+    profile: MinimalProfile;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    profile?: MinimalProfile | null;
+    address: string;
+    chainId: number;
+    profile: MinimalProfile;
   }
 }
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       id: "web3",
       name: "Web3",
       credentials: {
-        message: { label: "Message", type: "text", placeholder: "0x0" },
-        signature: { label: "Signature", type: "text", placeholder: "0x0" },
+        address: { label: "Address", type: "text" },
       },
-      async authorize(credentials, req) {
-        const siwe = new SiweMessage(JSON.parse(credentials?.message || "{}"));
-        const nextAuthUrl = new URL(process.env.NEXTAUTH_URL || "");
+      async authorize(credentials) {
+        try {
+          console.log("authorize credentials:", credentials);
+          if (!credentials?.address) {
+            throw new Error("No address provided");
+          }
 
-        const result = await siwe.verify({
-          signature: credentials?.signature || "",
-          domain: nextAuthUrl.host,
-          nonce: await getCsrfToken({ req }),
-        });
+          const cookieStore = await cookies();
+          const session = await getIronSession(cookieStore, sessionOptions);
+          console.log("session:", session);
 
-        if (!result.success) {
-          return null;
+          const profile = await findByAddress(session.address);
+
+          if (!profile) return null;
+          const minimalProfile = {
+            _id: profile._id,
+            name: profile.name,
+            address: profile.address,
+            handle: profile.handle,
+            avatar: profile.avatar,
+          } satisfies MinimalProfile;
+
+          console.log("profile:", minimalProfile);
+          return {
+            id: profile._id || session.address,
+            profile: minimalProfile,
+            address: session.address,
+            chainId: session.chainId,
+          };
+        } catch (error) {
+          console.error("Auth error:", error);
+          throw error;
         }
-        const profile = await getMinimalProfile(siwe.address);
-
-        if (!profile) {
-          return null;
-        }
-
-        return {
-          id: profile._id,
-          profile: profile,
-        };
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-    maxAge: 24 * 60 * 60 * 10, // 24 hours
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
   },
   callbacks: {
-    async jwt({ token, user }) {
-      try {
-        if (user) {
-          token.id = user.id;
-          token.profile = user.profile;
-        }
-        return token;
-      } catch (error) {
-        console.error("JWT callback error:", error);
-        throw error;
-      }
-    },
     async session({ session, token }) {
-      try {
-        session.user = {
-          ...session.user,
-          id: token.sub || "",
-          ...(token.profile || {}),
-        };
-        return session;
-      } catch (error) {
-        console.error("Session callback error:", error);
-        throw error;
+      if (!token.address) {
+        throw new Error("No address found in token");
       }
+
+      session.user = {
+        ...session.user,
+        id: token.sub || token.address,
+        address: token.address,
+        chainId: token.chainId,
+        profile: token.profile,
+      };
+
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        // When signing in
+        token.address = user.address;
+        token.chainId = user.chainId;
+        token.profile = user.profile;
+        token.sub = user.id; // Ensure sub is set from user.id
+      }
+
+      // Return the token with profile information
+      return {
+        ...token,
+        address: token.address,
+        chainId: token.chainId,
+        profile: token.profile,
+      };
     },
   },
-  pages: {
-    signIn: "/auth/signin",
-    error: "/auth/error",
-    newUser: "/auth/signup",
+  session: {
+    strategy: "jwt",
+    maxAge: 24 * 60 * 60 * 10,
   },
-  debug: process.env.NODE_ENV === "development",
-} satisfies NextAuthOptions;
+  debug: true,
+};
