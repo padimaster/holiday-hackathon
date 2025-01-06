@@ -23,13 +23,19 @@ export const getWallet = () =>
     transport: http(),
   }).extend(eip712WalletActions());
 
-  export const getWalletTipper = () =>
-    createWalletClient({
-      account: getAccount(`${process.env.TIPPER_PRIVATE_KEY}`),
-      chain: chains.testnet,
-      transport: http(),
-    }).extend(eip712WalletActions());
+export const getWalletTipper = () =>
+  createWalletClient({
+    account: getAccount(`${process.env.TIPPER_PRIVATE_KEY}`),
+    chain: chains.testnet,
+    transport: http(),
+  }).extend(eip712WalletActions());
   
+export const getWalletCreator = () =>
+  createWalletClient({
+    account: getAccount(`${process.env.TIPPER_PRIVATE_KEY}`),
+    chain: chains.testnet,
+    transport: http(),
+  }).extend(eip712WalletActions());
 
 export const prepareWriteContract = async (
   owner: any, 
