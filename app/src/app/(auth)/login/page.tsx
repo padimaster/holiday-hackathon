@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Logo from "@/components/common/logo";
+
 import { ConnectButton } from "@/components/common/connect-button";
 
 export default function Home() {
@@ -14,7 +15,7 @@ export default function Home() {
             <Logo width={48} height={48} />
             <span className="text-xl font-bold">Tech Pills</span>
           </div>
-          <ConnectButton/>
+          <ConnectButton></ConnectButton>
         </div>
       </nav>
 
@@ -35,9 +36,9 @@ export default function Home() {
               </h1>
             </div>
             <p className="text-xl lg:text-2xl text-gray-300 leading-relaxed">
-              Whether you&apos;re a curious enthusiast, a tech professional, or a
-              builder, Tech Pills offers tailored content to learn, explore, and
-              create—all in one place.
+              Whether you&apos;re a curious enthusiast, a tech professional, or
+              a builder, Tech Pills offers tailored content to learn, explore,
+              and create—all in one place.
             </p>
           </motion.div>
 
@@ -82,7 +83,6 @@ export default function Home() {
     </main>
   );
 }
-
 
 // Features data
 const features = [

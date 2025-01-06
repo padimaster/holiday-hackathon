@@ -4,7 +4,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useDebounce } from '@/hooks/use-debounce'
 import { SearchResult } from '@/types/search'
-import { searchContent } from '@/actions/search'
 
 export function useSearch() {
   const [results, setResults] = useState<SearchResult[]>([])
@@ -25,7 +24,7 @@ export function useSearch() {
     setError(null)
 
     try {
-      const searchResults = await searchContent(query)
+      const searchResults = [] as SearchResult[];
       setResults(searchResults)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Search failed')

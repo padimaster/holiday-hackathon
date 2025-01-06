@@ -11,42 +11,63 @@ import { cn } from "@/lib/utils";
 import { MarkdownPreview } from "./markdown-preview";
 import { MarkdownTips } from "./markdown-tips";
 import { ImageUpload } from "./image-upload";
+import { ICreatePostDto } from "@/backend/posts";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, ControllerRenderProps } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { createPostSchema } from "@/backend/posts/post.validations";
 import { useCreatePost } from "@/hooks/post/use-post";
 
 export default function CreatePost() {
-  const [content, setContent] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isPreview, setIsPreview] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(
     null
   ) as React.RefObject<HTMLInputElement>;
   const { toast } = useToast();
-  const createPostMutation = useCreatePost();
 
-  const handleSubmit = async (formData: FormData) => {
-    if (!content.trim()) return;
-    
+  const form = useForm<ICreatePostDto>({
+    resolver: zodResolver(createPostSchema),
+    defaultValues: {
+      content: "",
+      title: "",
+      profileId: "", // Set this from your auth context
+    },
+  });
+
+  const { mutateAsync } = useCreatePost();
+
+  const onSubmit = async (values: ICreatePostDto) => {
     try {
-      const result = await createPostMutation.mutateAsync(formData);
+      const formData = new FormData();
+      formData.append("content", values.content);
+      formData.append("profileId", values.profileId);
+      formData.append("title", values.title);
 
-      if (result) {
-        setContent("");
-        setImagePreview(null);
-        setIsPreview(false);
-        formRef.current?.reset();
-        toast({
-          title: "Success",
-          description: "Your tech pill has been posted!",
-        });
+      if (imageInputRef.current?.files?.[0]) {
+        formData.append("image", imageInputRef.current.files[0]);
       }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await mutateAsync(formData as any);
+      form.reset();
+      setImagePreview(null);
+      setIsPreview(false);
+      toast({
+        title: "Success",
+        description: "Post created successfully!",
+      });
     } catch (error) {
       toast({
         title: "Error",
         description:
-          error instanceof Error
-            ? error.message
-            : "Failed to post. Please try again.",
+          error instanceof Error ? error.message : "Failed to create post",
         variant: "destructive",
       });
     }
@@ -78,6 +99,7 @@ export default function CreatePost() {
     }
   };
 
+  const content = form.watch("content");
   const characterCount = content.length;
   const maxCharacters = 280;
   const remainingChars = maxCharacters - characterCount;
@@ -85,86 +107,99 @@ export default function CreatePost() {
 
   return (
     <div className="border-b border-gray-800">
-      <form ref={formRef} action={handleSubmit} className="p-4">
-        <div className="flex gap-4">
-          <Avatar className="w-12 h-12">
-            <AvatarImage src="/placeholder/32/32" />
-            <AvatarFallback>TP</AvatarFallback>
-          </Avatar>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
+          <div className="flex gap-4">
+            <Avatar className="w-12 h-12">
+              <AvatarImage src="/placeholder/32/32" />
+              <AvatarFallback>TP</AvatarFallback>
+            </Avatar>
 
-          <div className="flex-1 space-y-4">
-            {/* Edit/Preview Toggle */}
-            <div className="flex gap-2 border-b border-gray-800">
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  "flex-1 rounded-none",
-                  !isPreview && "text-purple-500 border-b-2 border-purple-500"
-                )}
-                onClick={() => setIsPreview(false)}
-              >
-                <PenLine className="w-4 h-4 mr-2" />
-                Edit
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  "flex-1 rounded-none",
-                  isPreview && "text-purple-500 border-b-2 border-purple-500"
-                )}
-                onClick={() => setIsPreview(true)}
-              >
-                <Eye className="w-4 h-4 mr-2" />
-                Preview
-              </Button>
-            </div>
-
-            {/* Content Area */}
-            {!isPreview ? (
-              <Textarea
-                name="content"
-                placeholder="Share your knowledge..."
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                className="min-h-[120px] bg-transparent border-none resize-none focus:ring-0"
-                maxLength={maxCharacters}
-              />
-            ) : (
-              <MarkdownPreview content={content} />
-            )}
-
-            {/* Bottom Actions */}
-            <div className="flex items-center justify-between pt-4 border-t border-gray-800">
-              <div className="flex gap-2">
-                <ImageUpload
-                  imagePreview={imagePreview}
-                  onImageSelect={handleImageSelect}
-                  onImageRemove={handleImageRemove}
-                  inputRef={imageInputRef}
-                />
-                <MarkdownTips />
+            <div className="flex-1 space-y-4">
+              <div className="flex gap-2 border-b border-gray-800">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "flex-1 rounded-none",
+                    !isPreview && "text-purple-500 border-b-2 border-purple-500"
+                  )}
+                  onClick={() => setIsPreview(false)}
+                >
+                  <PenLine className="w-4 h-4 mr-2" />
+                  Edit
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "flex-1 rounded-none",
+                    isPreview && "text-purple-500 border-b-2 border-purple-500"
+                  )}
+                  onClick={() => setIsPreview(true)}
+                >
+                  <Eye className="w-4 h-4 mr-2" />
+                  Preview
+                </Button>
               </div>
 
-              <div className="flex items-center gap-4">
-                <div
-                  className={cn(
-                    "text-sm",
-                    remainingChars <= 20 ? "text-yellow-500" : "text-gray-500",
-                    isOverLimit && "text-red-500"
-                  )}
-                >
-                  {remainingChars}
+              <FormField
+                control={form.control}
+                name="content"
+                render={({
+                  field,
+                }: {
+                  field: ControllerRenderProps<ICreatePostDto, "content">;
+                }) => (
+                  <FormItem>
+                    <FormControl>
+                      {!isPreview ? (
+                        <Textarea
+                          {...field}
+                          placeholder="Share your knowledge..."
+                          className="min-h-[120px] bg-transparent border-none resize-none focus:ring-0"
+                        />
+                      ) : (
+                        <MarkdownPreview content={field.value} />
+                      )}
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex items-center justify-between pt-4 border-t border-gray-800">
+                <div className="flex gap-2">
+                  <ImageUpload
+                    imagePreview={imagePreview}
+                    onImageSelect={handleImageSelect}
+                    onImageRemove={handleImageRemove}
+                    inputRef={imageInputRef}
+                  />
+                  <MarkdownTips />
                 </div>
-                <SubmitButton disabled={isOverLimit || !content.trim()} />
+
+                <div className="flex items-center gap-4">
+                  <div
+                    className={cn(
+                      "text-sm",
+                      remainingChars <= 20
+                        ? "text-yellow-500"
+                        : "text-gray-500",
+                      isOverLimit && "text-red-500"
+                    )}
+                  >
+                    {remainingChars}
+                  </div>
+                  <SubmitButton disabled={isOverLimit || !content.trim()} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </Form>
     </div>
   );
 }

@@ -1,9 +1,7 @@
-// app/[handle]/layout.tsx
-import { notFound } from "next/navigation";
 import { UserProfile } from "@/components/profile/profile";
 import NavTabs from "@/components/profile/nav-tabs";
 import { Suspense } from "react";
-import { getProfileByHandle } from "@/services/profile.service";
+import { findByHandle } from "@/services/profile.service";
 
 interface ProfileLayoutProps {
   children: React.ReactNode;
@@ -17,12 +15,9 @@ export default async function ProfileLayout({
   params,
 }: ProfileLayoutProps) {
   const { handle } = await params;
-  const profile = await getProfileByHandle(handle);
-
-  if (!profile) {
-    notFound();
-  }
-
+  const profile = await findByHandle(handle);
+  console.log(profile)
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900">
       <Suspense fallback={<div>Loading profile...</div>}>

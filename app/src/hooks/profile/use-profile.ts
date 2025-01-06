@@ -1,54 +1,69 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAccount } from "wagmi";
-import { Profile } from "@/types/profile";
-import { getProfileByAddress, getProfileByHandle, createProfile, updateProfile } from "@/services/profile.service";
+import axios from "axios";
+import {
+  ICreateProfileDto,
+  IUpdateProfileDto,
+  CompleteProfile,
+  MinimalProfile,
+  IProfileQueryDto,
+} from "@/backend/profiles";
 
-export const PROFILE_QUERY_KEY = ["profile"] as const;
+const api = axios.create({
+  baseURL: "http://localhost:3000/api",
+});
 
-export function useProfile() {
-  const { address } = useAccount();
-
-  return useQuery({
-    queryKey: [...PROFILE_QUERY_KEY, address],
-    queryFn: () => address ? getProfileByAddress(address) : null,
-    enabled: !!address,
-  });
-}
-
-export function useProfileByHandle(handle: string) {
-  return useQuery({
-    queryKey: [...PROFILE_QUERY_KEY, 'handle', handle],
-    queryFn: () => getProfileByHandle(handle),
+export const useProfile = (handle: string) => {
+  return useQuery<CompleteProfile>({
+    queryKey: ["profile", handle],
+    queryFn: async () => {
+      const { data } = await api.get(`/profiles/${handle}`);
+      return data;
+    },
     enabled: !!handle,
   });
-}
+};
 
-export function useCreateProfile() {
+export const useCreateProfile = () => {
   const queryClient = useQueryClient();
-  const { address } = useAccount();
 
-  return useMutation({
-    mutationFn: (profileData: Partial<Profile>) => {
-      if (!address) throw new Error("No wallet connected");
-      return createProfile({ ...profileData, address });
+  return useMutation<CompleteProfile, Error, ICreateProfileDto>({
+    mutationFn: async (newProfile) => {
+      const { data } = await api.post("/profiles", newProfile);
+      return data;
     },
-    onSuccess: (data) => {
-      queryClient.setQueryData([...PROFILE_QUERY_KEY, data.address], data);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profiles"] });
     },
   });
-}
+};
 
-export function useUpdateProfile() {
+export const useUpdateProfile = (handle: string) => {
   const queryClient = useQueryClient();
-  const { address } = useAccount();
 
-  return useMutation({
-    mutationFn: (profileData: Partial<Profile>) => {
-      if (!address) throw new Error("No wallet connected");
-      return updateProfile(address, profileData);
+  return useMutation<CompleteProfile, Error, IUpdateProfileDto>({
+    mutationFn: async (updateData) => {
+      const { data } = await api.patch(`/profiles/${handle}`, updateData);
+      return data;
     },
-    onSuccess: (data) => {
-      queryClient.setQueryData([...PROFILE_QUERY_KEY, data.address], data);
+    onSuccess: (updatedProfile) => {
+      queryClient.setQueryData(["profile", handle], updatedProfile);
+      queryClient.invalidateQueries({ queryKey: ["profiles"] });
     },
   });
-}
+};
+
+export const useSearchProfiles = (params: Partial<IProfileQueryDto>) => {
+  return useQuery<MinimalProfile[]>({
+    queryKey: ["profiles", params],
+    queryFn: async () => {
+      const searchParams = new URLSearchParams();
+      Object.entries(params).forEach(([key, value]) => {
+        if (value) searchParams.append(key, value.toString());
+      });
+
+      const { data } = await api.get(`/profiles?${searchParams}`);
+      return data;
+    },
+    enabled: Object.values(params).some((value) => !!value),
+  });
+};

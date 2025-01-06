@@ -1,28 +1,30 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/db/connection';
-import { Post } from '@/db/models/post';
-import { Profile } from '@/db/models/profile';
-import { Types } from 'mongoose';
+import {
+  createPost,
+  getAllPosts,
+  getPostsByHandle,
+} from "@/backend/posts/post.service";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    await connectDB();
-    
-    const posts = await Post.find()
-      .populate({
-        path: 'profileId',
-        model: Profile,
-      })
-      .sort({ createdAt: -1 });
+    const searchParams = request.nextUrl.searchParams;
+    const populate = searchParams.get("populate") === "true";
+    const limit = parseInt(searchParams.get("limit") || "10");
+    const offset = parseInt(searchParams.get("offset") || "0");
+    const handle = searchParams.get("handle");
 
-    return NextResponse.json(
-      { success: true, data: posts },
-      { status: 200 }
-    );
+    if (handle) {
+      const result = await getPostsByHandle(handle, populate, limit, offset);
+      return NextResponse.json(result);
+    }
+
+    const result = await getAllPosts(populate, limit, offset);
+    return NextResponse.json(result);
   } catch (error) {
-    console.error('Error fetching posts:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch posts' },
+      {
+        error: error instanceof Error ? error.message : "Internal Server Error",
+      },
       { status: 500 }
     );
   }
@@ -30,36 +32,14 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
-    const formData = await request.formData();
-
-    const title = "title_001"; // TODO: Get from formData
-    const content = formData.get("content") as string;
-    const profileId = new Types.ObjectId("60f1b9e3f3b3f3b3f3b3f3b3"); // TODO: Get from auth
-    const imageUrl = "null";
-
-    if (!content) {
-      return NextResponse.json(
-        { success: false, error: 'Content is required' },
-        { status: 400 }
-      );
-    }
-
-    const post = await Post.create({
-      title,
-      content,
-      profileId,
-      imageUrl,
-    });
-
-    return NextResponse.json(
-      { success: true, data: post},
-      { status: 201 }
-    );
+    const body = await request.json();
+    const post = await createPost(body);
+    return NextResponse.json(post, { status: 201 });
   } catch (error) {
-    console.error("Error creating post:", error);
     return NextResponse.json(
-      { success: false, error: 'Failed to create post' },
+      {
+        error: error instanceof Error ? error.message : "Internal Server Error",
+      },
       { status: 500 }
     );
   }

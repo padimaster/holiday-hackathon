@@ -13,21 +13,22 @@ import {
   Zap,
   Edit2,
 } from "lucide-react";
-import { IProfile } from "@/db/models/profile";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { CompleteProfile } from "@/backend/profiles";
 
 interface UserProfileProps {
-  profile: IProfile;
+  profile: CompleteProfile;
   isOwner?: boolean;
 }
 
 export function UserProfile({ profile, isOwner = false }: UserProfileProps) {
   const stats = {
+    techScore: 10,
     learningLevel: 3,
     streak: 7,
     activePills: 3,
@@ -59,13 +60,13 @@ export function UserProfile({ profile, isOwner = false }: UserProfileProps) {
                 <TooltipTrigger asChild>
                   <div className="absolute -top-2 -right-2 bg-purple-500 rounded-full w-12 h-12 flex items-center justify-center border-4 border-gray-900 cursor-help">
                     <span className="text-white font-bold text-xl">
-                      {profile.techScore}
+                      {stats.techScore}
                     </span>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="font-semibold">
-                    Tech Score: {profile.techScore}
+                    Tech Score: {stats.techScore}
                   </p>
                   <p className="text-sm text-gray-400">
                     Overall learning achievement
@@ -206,11 +207,11 @@ export function UserProfile({ profile, isOwner = false }: UserProfileProps) {
 
           <div className="flex items-center gap-6 mt-4">
             <div>
-              <span className="text-white font-bold">{profile.following}</span>
+              <span className="text-white font-bold">{profile.stats.following}</span>
               <span className="text-gray-400 ml-1">Following</span>
             </div>
             <div>
-              <span className="text-white font-bold">{profile.followers}</span>
+              <span className="text-white font-bold">{profile.stats.followers}</span>
               <span className="text-gray-400 ml-1">Followers</span>
             </div>
           </div>

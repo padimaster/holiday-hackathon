@@ -1,6 +1,7 @@
-import { Schema, model, models, Document } from 'mongoose';
+import { Schema, model, models, Document, Types } from "mongoose";
 
-export interface IProfile extends Document {
+export interface IProfileDB extends Document {
+  _id: Types.ObjectId;
   handle: string;
   address: string;
   name: string;
@@ -16,9 +17,9 @@ export interface IProfile extends Document {
   organization?: string;
 }
 
-const profileSchema = new Schema<IProfile>({
-  handle: { type: String, required: true, unique: true },
-  address: { type: String, required: true },
+const profileSchema = new Schema<IProfileDB>({
+  handle: { type: String, required: true }, // Removed unique: true
+  address: { type: String, required: true }, // Removed unique: true
   name: { type: String, required: true },
   avatar: { type: String, required: true },
   bio: { type: String, required: true },
@@ -32,4 +33,5 @@ const profileSchema = new Schema<IProfile>({
   organization: String,
 });
 
-export const Profile = models.Profile || model<IProfile>('Profile', profileSchema);
+export const Profile =
+  models.Profile || model<IProfileDB>("Profile", profileSchema);
