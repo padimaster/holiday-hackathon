@@ -1,4 +1,4 @@
-import { Schema, model, models, Document, Types } from "mongoose";
+import { Schema, model, models, Document, Types } from 'mongoose';
 
 export interface IProfileDB extends Document {
   _id: Types.ObjectId;
@@ -34,4 +34,4 @@ const profileSchema = new Schema<IProfileDB>({
 });
 
 export const Profile =
-  models.Profile || model<IProfileDB>("Profile", profileSchema);
+  models.Profile || model<IProfileDB>('Profile', profileSchema);

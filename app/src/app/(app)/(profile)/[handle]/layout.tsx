@@ -1,7 +1,7 @@
-import { UserProfile } from "@/components/profile/profile";
-import NavTabs from "@/components/profile/nav-tabs";
-import { Suspense } from "react";
-import { findByHandle } from "@/services/profile.service";
+import { UserProfile } from '@/components/profile/profile';
+import NavTabs from '@/components/profile/nav-tabs';
+import { Suspense } from 'react';
+import { findByHandle } from '@/services/profile.service';
 
 interface ProfileLayoutProps {
   children: React.ReactNode;
@@ -16,10 +16,10 @@ export default async function ProfileLayout({
 }: ProfileLayoutProps) {
   const { handle } = await params;
   const profile = await findByHandle(handle);
-  console.log(profile)
-  
+  console.log(profile);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900">
+    <div className='min-h-screen bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900'>
       <Suspense fallback={<div>Loading profile...</div>}>
         {/* Profile Info Section */}
         <UserProfile profile={profile} />
@@ -28,8 +28,8 @@ export default async function ProfileLayout({
         <NavTabs handle={handle} />
 
         {/* Content Area */}
-        <main className="max-w-2xl mx-auto px-4">
-          <div className="divide-y divide-gray-800">
+        <main className='mx-auto max-w-2xl px-4'>
+          <div className='divide-y divide-gray-800'>
             <Suspense fallback={<div>Loading content...</div>}>
               {children}
             </Suspense>

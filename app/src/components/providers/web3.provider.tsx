@@ -1,11 +1,11 @@
-"use client";
-import { WagmiProvider, createConfig, http } from "wagmi";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { getDefaultConfig, SIWEProvider } from "connectkit";
-import { chains } from "@lens-network/sdk/viem";
-import { ReactNode } from "react";
-import { siweConfig } from "@/utils/siwe/siwe.config";
-import CustomConnectKitProvider from "./connect-kit.provider";
+'use client';
+import { WagmiProvider, createConfig, http } from 'wagmi';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { getDefaultConfig, SIWEProvider } from 'connectkit';
+import { chains } from '@lens-network/sdk/viem';
+import { ReactNode } from 'react';
+import { siweConfig } from '@/utils/siwe/siwe.config';
+import CustomConnectKitProvider from './connect-kit.provider';
 
 const config = createConfig(
   getDefaultConfig({
@@ -15,13 +15,13 @@ const config = createConfig(
     },
 
     walletConnectProjectId:
-      process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "",
+      process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '',
 
-    appName: "COMM",
+    appName: 'COMM',
 
-    appDescription: "Social Learning Platform",
-    appUrl: "",
-    appIcon: "",
+    appDescription: 'Social Learning Platform',
+    appUrl: '',
+    appIcon: '',
   })
 );
 

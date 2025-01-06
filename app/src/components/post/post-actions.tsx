@@ -1,23 +1,23 @@
-import { PopulatedPost } from '@/hooks/post/use-post';
+import { IPopulatedPost } from "@/backend/posts";
 
 interface PostActionsProps {
-  post: PopulatedPost;
+  post: IPopulatedPost;
 }
 
 export default function PostActions({ post }: PostActionsProps) {
   return (
-    <div className="flex gap-6 text-gray-500">
-      <button className="flex items-center gap-2 hover:text-blue-500 transition-colors">
+    <div className='flex gap-6 text-gray-500'>
+      <button className='flex items-center gap-2 transition-colors hover:text-blue-500'>
         <span>💬</span>
-        <span>{post.replies}</span>
+        <span>{post.engagement.replies}</span>
       </button>
-      <button className="flex items-center gap-2 hover:text-green-500 transition-colors">
+      <button className='flex items-center gap-2 transition-colors hover:text-green-500'>
         <span>🔄</span>
-        <span>{post.redrops}</span>
+        <span>{post.engagement.redrops}</span>
       </button>
-      <button className="flex items-center gap-2 hover:text-red-500 transition-colors">
+      <button className='flex items-center gap-2 transition-colors hover:text-red-500'>
         <span>❤️</span>
-        <span>{post.likes}</span>
+        <span>{post.engagement.likes}</span>
       </button>
     </div>
   );

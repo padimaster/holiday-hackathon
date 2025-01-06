@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   webpack: (config) => {
@@ -7,21 +7,21 @@ const nextConfig: NextConfig = {
   },
   images: {
     domains: [
-      "pbs.twimg.com", // Twitter profile images
-      "abs.twimg.com", // Twitter media
-      "avatars.githubusercontent.com", // GitHub avatars (if needed)
-      "localhost", // Local development
+      'pbs.twimg.com', // Twitter profile images
+      'abs.twimg.com', // Twitter media
+      'avatars.githubusercontent.com', // GitHub avatars (if needed)
+      'localhost', // Local development
     ],
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "pbs.twimg.com",
-        pathname: "/profile_images/**",
+        protocol: 'https',
+        hostname: 'pbs.twimg.com',
+        pathname: '/profile_images/**',
       },
       {
-        protocol: "https",
-        hostname: "abs.twimg.com",
-        pathname: "/images/**",
+        protocol: 'https',
+        hostname: 'abs.twimg.com',
+        pathname: '/images/**',
       },
     ],
   },

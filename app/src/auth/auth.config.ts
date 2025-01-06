@@ -1,18 +1,18 @@
-import { DefaultSession, NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { findByAddress, MinimalProfile } from "@/backend/profiles";
-import { getIronSession } from "iron-session";
-import { sessionOptions } from "@/utils/session.options";
-import { cookies } from "next/headers";
+import { DefaultSession, NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { findByAddress, MinimalProfile } from '@/backend/profiles';
+import { getIronSession } from 'iron-session';
+import { SessionData, sessionOptions } from '@/utils/session.options';
+import { cookies } from 'next/headers';
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session {
     user: {
       id: string;
       address: string;
       chainId: number;
       profile: MinimalProfile;
-    } & DefaultSession["user"];
+    } & DefaultSession['user'];
   }
   interface User {
     address: string;
@@ -21,7 +21,7 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
+declare module 'next-auth/jwt' {
   interface JWT {
     address: string;
     chainId: number;
@@ -32,21 +32,21 @@ declare module "next-auth/jwt" {
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      id: "web3",
-      name: "Web3",
+      id: 'web3',
+      name: 'Web3',
       credentials: {
-        address: { label: "Address", type: "text" },
+        address: { label: 'Address', type: 'text' },
       },
       async authorize(credentials) {
         try {
-          console.log("authorize credentials:", credentials);
+          console.log('authorize credentials:', credentials);
           if (!credentials?.address) {
-            throw new Error("No address provided");
+            throw new Error('No address provided');
           }
 
           const cookieStore = await cookies();
-          const session = await getIronSession(cookieStore, sessionOptions);
-          console.log("session:", session);
+          const session = await getIronSession<SessionData>(cookieStore, sessionOptions);
+          console.log('session:', session);
 
           const profile = await findByAddress(session.address);
 
@@ -59,28 +59,28 @@ export const authOptions: NextAuthOptions = {
             avatar: profile.avatar,
           } satisfies MinimalProfile;
 
-          console.log("profile:", minimalProfile);
+          console.log('profile:', minimalProfile);
           return {
             id: profile._id || session.address,
             profile: minimalProfile,
             address: session.address,
-            chainId: session.chainId,
+            chainId: session.chainId || 1,
           };
         } catch (error) {
-          console.error("Auth error:", error);
+          console.error('Auth error:', error);
           throw error;
         }
       },
     }),
   ],
   pages: {
-    signIn: "/auth/login",
-    error: "/auth/error",
+    signIn: '/auth/login',
+    error: '/auth/error',
   },
   callbacks: {
     async session({ session, token }) {
       if (!token.address) {
-        throw new Error("No address found in token");
+        throw new Error('No address found in token');
       }
 
       session.user = {
@@ -112,7 +112,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
     maxAge: 24 * 60 * 60 * 10,
   },
   debug: true,

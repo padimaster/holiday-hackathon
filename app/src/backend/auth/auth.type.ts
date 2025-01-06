@@ -1,4 +1,4 @@
-import { MinimalProfile } from "../profiles";
+import { MinimalProfile } from '../profiles';
 
 export interface Web3Credentials {
   message: string;

@@ -1,8 +1,8 @@
-import { SiweMessage } from "siwe";
-import { NextRequest, NextResponse } from "next/server";
-import { getIronSession } from "iron-session";
-import { sessionOptions } from "@/utils/session.options";
-import { cookies } from "next/headers";
+import { SiweMessage } from 'siwe';
+import { NextRequest, NextResponse } from 'next/server';
+import { getIronSession } from 'iron-session';
+import { SessionData, sessionOptions } from '@/utils/session.options';
+import { cookies } from 'next/headers';
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,11 +15,14 @@ export async function POST(req: NextRequest) {
     }
 
     const cookieStore = await cookies();
-    const session = await getIronSession(cookieStore, sessionOptions);
+    const session = await getIronSession<SessionData>(
+      cookieStore,
+      sessionOptions,
+    );
 
     session.address = siweMessage.address;
     session.chainId = siweMessage.chainId;
-    
+
     await session.save();
 
     return NextResponse.json({ ok: true }, { status: 200 });

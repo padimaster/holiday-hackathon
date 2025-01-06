@@ -30,7 +30,7 @@ export interface IPost extends IBasePostDto {
   };
 }
 
-export interface IPopulatedPost extends Omit<IPost, "profileId"> {
+export interface IPopulatedPost extends Omit<IPost, 'profileId'> {
   profile: {
     _id: string;
     handle: string;

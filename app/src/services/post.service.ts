@@ -1,25 +1,26 @@
-import axios from "axios";
-import { IPost, ICreatePostDto } from "@/backend/posts";
+import axios from 'axios';
+import { IPost, ICreatePostDto } from '@/backend/posts';
 
-interface PostQueryParams {
+export interface PostQueryParams {
   populate?: boolean;
   limit?: number;
   offset?: number;
   handle?: string;
+  enabled?: boolean;
 }
 
-interface PostsResponse {
+export interface PostsResponse {
   data: IPost[];
   total: number;
 }
 
-const BASE_URL = "http://localhost:3000/api/posts";
+const BASE_URL = 'http://localhost:3000/api/posts';
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || '',
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
@@ -34,12 +35,12 @@ export const getAllPosts = async (
         offset: params.offset || 0,
       },
     });
-    console.log("post service:", data);
+    console.log('post service:', data);
     console.log(data);
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.error || "Failed to fetch posts");
+      throw new Error(error.response?.data?.error || 'Failed to fetch posts');
     }
     throw error;
   }
@@ -47,7 +48,7 @@ export const getAllPosts = async (
 
 export const getPostsByHandle = async (
   handle: string,
-  params: Omit<PostQueryParams, "handle"> = {}
+  params: Omit<PostQueryParams, 'handle'> = {}
 ): Promise<PostsResponse> => {
   try {
     const { data } = await api.get<PostsResponse>(BASE_URL, {
@@ -77,19 +78,19 @@ export const createPost = async (
     const headers: Record<string, string> = {};
 
     if (data instanceof FormData) {
-      headers["Content-Type"] = "multipart/form-data";
+      headers['Content-Type'] = 'multipart/form-data';
     } else {
-      headers["Content-Type"] = "application/json";
+      headers['Content-Type'] = 'application/json';
     }
 
     const { data: responseData } = await api.post(BASE_URL, data, { headers });
     return {
       data: responseData,
-      message: "Post created successfully",
+      message: 'Post created successfully',
     };
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.error || "Failed to create post");
+      throw new Error(error.response?.data?.error || 'Failed to create post');
     }
     throw error;
   }

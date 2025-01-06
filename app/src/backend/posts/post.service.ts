@@ -1,10 +1,10 @@
-import { Post } from "./post.model";
-import { ICreatePostDto, IUpdatePostDto } from "./post.type";
-import { PostErrorCode, ERROR_DEFINITIONS } from "./post.error";
-import { IPost, IPopulatedPost } from "./post.type";
-import { parsePost, parsePopulatedPost } from "./post.lib";
-import { connectDB } from "../database/connection";
-import { findByHandle } from "../profiles";
+import { Post } from './post.model';
+import { ICreatePostDto } from './post.type';
+import { PostErrorCode, ERROR_DEFINITIONS } from './post.error';
+import { IPost, IPopulatedPost } from './post.type';
+import { parsePost, parsePopulatedPost } from './post.lib';
+import { connectDB } from '../database/connection';
+import { findByHandle } from '../profiles';
 
 interface QueryOptions {
   populate?: boolean;
@@ -13,7 +13,7 @@ interface QueryOptions {
 }
 
 export const createPost = async (
-  createPostDto: ICreatePostDto
+  createPostDto: ICreatePostDto,
 ): Promise<IPost> => {
   connectDB();
   const post = new Post(createPostDto);
@@ -21,55 +21,22 @@ export const createPost = async (
   return parsePost(savedPost);
 };
 
-export const getPostById = async ({
-  postId,
-  populate = false,
-}: {
-  postId: string;
-  populate?: boolean;
-}): Promise<IPost | IPopulatedPost> => {
+export const getPostById = async (
+  postId: string,
+): Promise<IPost | IPopulatedPost> => {
   connectDB();
   const query = Post.findById(postId);
 
-  if (populate) {
-    const populatedPost = await query.populate({
-      path: "profileId",
-      select: "_id handle name avatar",
-      model: "Profile",
-    });
+  const populatedPost = await query.populate({
+    path: 'profileId',
+    select: '_id handle name avatar',
+    model: 'Profile',
+  });
 
-    if (!populatedPost) {
-      throw new Error(ERROR_DEFINITIONS[PostErrorCode.NOT_FOUND].message);
-    }
-    return parsePopulatedPost(populatedPost);
-  }
-
-  const post = await query;
-  if (!post) {
+  if (!populatedPost) {
     throw new Error(ERROR_DEFINITIONS[PostErrorCode.NOT_FOUND].message);
   }
-  return parsePost(post);
-};
-
-export const updatePost = async ({
-  postId,
-  updatePostDto,
-}: {
-  postId: string;
-  updatePostDto: IUpdatePostDto;
-}): Promise<IPost> => {
-  connectDB();
-  const updatedPost = await Post.findByIdAndUpdate(
-    postId,
-    { $set: updatePostDto },
-    { new: true, runValidators: true }
-  );
-
-  if (!updatedPost) {
-    throw new Error(ERROR_DEFINITIONS[PostErrorCode.NOT_FOUND].message);
-  }
-
-  return parsePost(updatedPost);
+  return parsePopulatedPost(populatedPost);
 };
 
 export const getPostsByHandle = async ({
@@ -86,7 +53,7 @@ export const getPostsByHandle = async ({
   connectDB();
   const profile = await findByHandle(handle);
 
-  console.log("profile:", profile);
+  console.log('profile:', profile);
   const profileId = profile?._id;
 
   if (!profileId) {
@@ -101,9 +68,9 @@ export const getPostsByHandle = async ({
   if (populate) {
     const [posts, total] = await Promise.all([
       query.populate({
-        path: "profileId",
-        select: "_id handle name avatar",
-        model: "Profile",
+        path: 'profileId',
+        select: '_id handle name avatar',
+        model: 'Profile',
       }),
       Post.countDocuments({ profileId }),
     ]);
@@ -130,7 +97,7 @@ export const getAllPosts = async ({
   limit = 10,
   offset = 0,
 }: QueryOptions = {}): Promise<{
-  posts: Array<IPost | IPopulatedPost>;
+  data: Array<IPost | IPopulatedPost>;
   total: number;
 }> => {
   connectDB();
@@ -139,15 +106,15 @@ export const getAllPosts = async ({
   if (populate) {
     const [posts, total] = await Promise.all([
       query.populate({
-        path: "profileId",
-        select: "_id handle name avatar",
-        model: "Profile",
+        path: 'profileId',
+        select: '_id handle name avatar',
+        model: 'Profile',
       }),
       Post.countDocuments(),
     ]);
 
     return {
-      posts: posts.map((post) => parsePopulatedPost(post)),
+      data: posts.map((post) => parsePopulatedPost(post)),
       total,
     };
   }
@@ -155,7 +122,7 @@ export const getAllPosts = async ({
   const [posts, total] = await Promise.all([query, Post.countDocuments()]);
 
   return {
-    posts: posts.map(parsePost),
+    data: posts.map(parsePost),
     total,
   };
 };

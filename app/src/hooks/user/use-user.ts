@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { useAccount } from "wagmi";
+import { useState, useEffect, useCallback } from 'react';
+import { useAccount } from 'wagmi';
 
 interface UserData {
   userId: string;
@@ -7,12 +7,12 @@ interface UserData {
   handle: string;
 }
 
-const USER_STORAGE_KEY = "userData";
+const USER_STORAGE_KEY = 'userData';
 
 export function useUser() {
   const { address } = useAccount();
   const [user, setUser] = useState<UserData | null>(() => {
-    if (typeof window === "undefined") return null;
+    if (typeof window === 'undefined') return null;
 
     const storedData = localStorage.getItem(USER_STORAGE_KEY);
     if (!storedData) return null;

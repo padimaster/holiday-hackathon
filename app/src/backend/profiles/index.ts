@@ -1,3 +1,3 @@
-export * from "./profile.service";
-export * from "./profile.model";
-export * from "./profile.type";
+export * from './profile.service';
+export * from './profile.model';
+export * from './profile.type';

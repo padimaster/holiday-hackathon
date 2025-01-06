@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import PostItem from "@/components/post/post-item";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useSession } from "next-auth/react";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
-import { IPopulatedPost } from "@/backend/posts";
-import { useAllPosts } from "@/hooks/post/use-posts";
+import PostItem from '@/components/post/post-item';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useSession } from 'next-auth/react';
+import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react';
+import { useAllPosts } from '@/hooks/post/use-posts';
+import { IPopulatedPost } from '@/backend/posts';
 
 export default function Posts() {
   const { data: session } = useSession();
-  const handle = session?.user?.profile?.handle || "";
+  const handle = session?.user?.profile?.handle || '';
 
   const { ref, inView } = useInView();
 
@@ -36,9 +36,9 @@ export default function Posts() {
 
   if (isLoading) {
     return (
-      <div className="space-y-4 p-4">
+      <div className='space-y-4 p-4'>
         {[...Array(3)].map((_, i) => (
-          <Skeleton key={i} className="w-full h-32" />
+          <Skeleton key={i} className='h-32 w-full' />
         ))}
       </div>
     );
@@ -46,8 +46,8 @@ export default function Posts() {
 
   if (error) {
     return (
-      <div className="px-4 py-8">
-        <Alert className="bg-red-500/10 text-red-300 border-red-500/20">
+      <div className='px-4 py-8'>
+        <Alert className='border-red-500/20 bg-red-500/10 text-red-300'>
           <AlertDescription>
             Failed to load posts. Please try again later.
           </AlertDescription>
@@ -57,12 +57,15 @@ export default function Posts() {
   }
 
   const allPosts =
-    data?.pages.flatMap((page) => page.posts as IPopulatedPost[]) || [];
+    data?.pages.flatMap((page) => {
+      console.log('page:', page);
+      return page.data as unknown as IPopulatedPost[];
+    }) || [];
 
   if (!allPosts.length) {
     return (
-      <div className="px-4 py-8">
-        <Alert className="bg-purple-500/10 text-purple-300 border-purple-500/20">
+      <div className='px-4 py-8'>
+        <Alert className='border-purple-500/20 bg-purple-500/10 text-purple-300'>
           <AlertDescription>
             No tech pills yet. Be the first to share your knowledge!
           </AlertDescription>
@@ -72,13 +75,13 @@ export default function Posts() {
   }
 
   return (
-    <div className="divide-y divide-gray-800">
+    <div className='divide-y divide-gray-800'>
       {allPosts.map((post) => (
         <PostItem key={post._id} post={post} />
       ))}
       {(hasNextPage || isFetchingNextPage) && (
-        <div ref={ref} className="p-4">
-          <Skeleton className="w-full h-32" />
+        <div ref={ref} className='p-4'>
+          <Skeleton className='h-32 w-full' />
         </div>
       )}
     </div>

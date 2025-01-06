@@ -4,13 +4,13 @@ import {
   MinimalProfile,
   IProfileDB,
   IProfileQueryDto,
-} from "@/backend/profiles";
-import { ICreateProfileDto, IUpdateProfileDto } from "@/backend/profiles";
-import { toMinimalProfile, toProfileResponse } from "./profile.lib";
-import { connectDB } from "../database/connection";
+} from '@/backend/profiles';
+import { ICreateProfileDto, IUpdateProfileDto } from '@/backend/profiles';
+import { toMinimalProfile, toProfileResponse } from './profile.lib';
+import { connectDB } from '../database/connection';
 
 const checkDuplicates = async (
-  data: Pick<IProfileDB, "address" | "handle">,
+  data: Pick<IProfileDB, 'address' | 'handle'>,
   excludeId?: string
 ): Promise<boolean> => {
   const query = {
@@ -78,8 +78,8 @@ export const update = async (
   if (data.handle || data.address) {
     const exists = await checkDuplicates(
       {
-        handle: data.handle || "",
-        address: data.address || "",
+        handle: data.handle || '',
+        address: data.address || '',
       },
       profileId
     );
@@ -109,8 +109,8 @@ export const query = async (
   const filter: Record<string, unknown> = {
     ...(params.search && {
       $or: [
-        { handle: new RegExp(params.search, "i") },
-        { name: new RegExp(params.search, "i") },
+        { handle: new RegExp(params.search, 'i') },
+        { name: new RegExp(params.search, 'i') },
       ],
     }),
     ...(params.address && { address: params.address }),

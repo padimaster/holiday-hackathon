@@ -1,5 +1,5 @@
-import { IPopulatedPostDB, IPostDB } from "./post.model";
-import { IPopulatedPost, IPost } from "./post.type";
+import { IPopulatedPostDB, IPostDB } from './post.model';
+import { IPopulatedPost, IPost } from './post.type';
 
 export const parsePost = (post: IPostDB): IPost => ({
   _id: post.id.toString(),

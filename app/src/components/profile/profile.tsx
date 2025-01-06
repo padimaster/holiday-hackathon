@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 import {
   Brain,
   GraduationCap,
@@ -12,14 +12,14 @@ import {
   Star,
   Zap,
   Edit2,
-} from "lucide-react";
+} from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { CompleteProfile } from "@/backend/profiles";
+} from '@/components/ui/tooltip';
+import { CompleteProfile } from '@/backend/profiles';
 
 interface UserProfileProps {
   profile: CompleteProfile;
@@ -36,20 +36,20 @@ export function UserProfile({ profile, isOwner = false }: UserProfileProps) {
   };
 
   return (
-    <div className="relative p-6 bg-gray-900/30 rounded-xl backdrop-blur-sm">
-      <div className="flex gap-6">
+    <div className='relative rounded-xl bg-gray-900/30 p-6 backdrop-blur-sm'>
+      <div className='flex gap-6'>
         {/* Profile Stats Circle */}
-        <div className="relative w-32 flex flex-col justify-between">
+        <div className='relative flex w-32 flex-col justify-between'>
           {/* Outer Circle */}
-          <div className="relative aspect-square">
+          <div className='relative aspect-square'>
             {/* Main circle with avatar */}
-            <div className="w-32 h-32 rounded-full border border-gray-700/50 relative">
+            <div className='relative h-32 w-32 rounded-full border border-gray-700/50'>
               <Image
                 src={profile.avatar}
                 alt={profile.name}
                 width={128}
                 height={128}
-                className="rounded-full object-cover"
+                className='rounded-full object-cover'
                 priority
               />
             </div>
@@ -58,17 +58,15 @@ export function UserProfile({ profile, isOwner = false }: UserProfileProps) {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div className="absolute -top-2 -right-2 bg-purple-500 rounded-full w-12 h-12 flex items-center justify-center border-4 border-gray-900 cursor-help">
-                    <span className="text-white font-bold text-xl">
+                  <div className='absolute -right-2 -top-2 flex h-12 w-12 cursor-help items-center justify-center rounded-full border-4 border-gray-900 bg-purple-500'>
+                    <span className='text-xl font-bold text-white'>
                       {stats.techScore}
                     </span>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p className="font-semibold">
-                    Tech Score: {stats.techScore}
-                  </p>
-                  <p className="text-sm text-gray-400">
+                  <p className='font-semibold'>Tech Score: {stats.techScore}</p>
+                  <p className='text-sm text-gray-400'>
                     Overall learning achievement
                   </p>
                 </TooltipContent>
@@ -77,24 +75,24 @@ export function UserProfile({ profile, isOwner = false }: UserProfileProps) {
           </div>
 
           {/* Stats at Bottom */}
-          <div className="flex flex-col gap-2 justify-center items-center">
+          <div className='flex flex-col items-center justify-center gap-2'>
             {/* Top Row */}
-            <div className="flex gap-2">
+            <div className='flex gap-2'>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="bg-blue-500 rounded-full p-2 relative cursor-help">
-                      <GraduationCap className="w-5 h-5 text-white" />
-                      <span className="absolute -top-1 -right-1 bg-gray-900 rounded-full text-xs w-5 h-5 flex items-center justify-center text-blue-500 font-bold">
+                    <div className='relative cursor-help rounded-full bg-blue-500 p-2'>
+                      <GraduationCap className='h-5 w-5 text-white' />
+                      <span className='absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-900 text-xs font-bold text-blue-500'>
                         {stats.learningLevel}
                       </span>
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p className="font-semibold">
+                    <p className='font-semibold'>
                       Learning Level {stats.learningLevel}
                     </p>
-                    <p className="text-sm text-gray-400">
+                    <p className='text-sm text-gray-400'>
                       Keep learning to level up!
                     </p>
                   </TooltipContent>
@@ -102,38 +100,38 @@ export function UserProfile({ profile, isOwner = false }: UserProfileProps) {
 
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="bg-purple-500 rounded-full p-2 relative cursor-help">
-                      <Brain className="w-5 h-5 text-white" />
-                      <span className="absolute -top-1 -right-1 bg-gray-900 rounded-full text-xs w-5 h-5 flex items-center justify-center text-purple-500 font-bold">
+                    <div className='relative cursor-help rounded-full bg-purple-500 p-2'>
+                      <Brain className='h-5 w-5 text-white' />
+                      <span className='absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-900 text-xs font-bold text-purple-500'>
                         {stats.activePills}
                       </span>
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p className="font-semibold">
+                    <p className='font-semibold'>
                       {stats.activePills} Active Pills
                     </p>
-                    <p className="text-sm text-gray-400">Currently learning</p>
+                    <p className='text-sm text-gray-400'>Currently learning</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </div>
 
             {/* Bottom Row */}
-            <div className="flex gap-2">
+            <div className='flex gap-2'>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="bg-amber-500 rounded-full p-2 relative cursor-help">
-                      <Flame className="w-5 h-5 text-white" />
-                      <span className="absolute -top-1 -right-1 bg-gray-900 rounded-full text-xs w-5 h-5 flex items-center justify-center text-amber-500 font-bold">
+                    <div className='relative cursor-help rounded-full bg-amber-500 p-2'>
+                      <Flame className='h-5 w-5 text-white' />
+                      <span className='absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-900 text-xs font-bold text-amber-500'>
                         {stats.streak}
                       </span>
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p className="font-semibold">{stats.streak} Day Streak!</p>
-                    <p className="text-sm text-gray-400">
+                    <p className='font-semibold'>{stats.streak} Day Streak!</p>
+                    <p className='text-sm text-gray-400'>
                       Keep the momentum going
                     </p>
                   </TooltipContent>
@@ -141,18 +139,18 @@ export function UserProfile({ profile, isOwner = false }: UserProfileProps) {
 
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="bg-amber-500 rounded-full p-2 relative cursor-help">
-                      <Trophy className="w-5 h-5 text-white" />
-                      <span className="absolute -top-1 -right-1 bg-gray-900 rounded-full text-xs w-5 h-5 flex items-center justify-center text-amber-500 font-bold">
+                    <div className='relative cursor-help rounded-full bg-amber-500 p-2'>
+                      <Trophy className='h-5 w-5 text-white' />
+                      <span className='absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-gray-900 text-xs font-bold text-amber-500'>
                         {stats.completedPills}
                       </span>
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p className="font-semibold">
+                    <p className='font-semibold'>
                       {stats.completedPills} Completed Pills
                     </p>
-                    <p className="text-sm text-gray-400">Knowledge gained</p>
+                    <p className='text-sm text-gray-400'>Knowledge gained</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -161,58 +159,62 @@ export function UserProfile({ profile, isOwner = false }: UserProfileProps) {
         </div>
 
         {/* Profile Info */}
-        <div className="flex-1 pt-2">
-          <div className="flex items-start justify-between">
+        <div className='flex-1 pt-2'>
+          <div className='flex items-start justify-between'>
             <div>
-              <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+              <h1 className='flex items-center gap-2 text-2xl font-bold text-white'>
                 {profile.name}
-                <Star className="w-5 h-5 text-amber-400" />
+                <Star className='h-5 w-5 text-amber-400' />
               </h1>
-              <p className="text-gray-400">@{profile.handle}</p>
+              <p className='text-gray-400'>@{profile.handle}</p>
             </div>
 
             {isOwner ? (
               <Button
-                variant="outline"
-                size="sm"
-                className="rounded-full border-purple-500/50 hover:border-purple-500 hover:bg-purple-500/10"
+                variant='outline'
+                size='sm'
+                className='rounded-full border-purple-500/50 hover:border-purple-500 hover:bg-purple-500/10'
               >
-                <Edit2 className="w-4 h-4 mr-1" />
+                <Edit2 className='mr-1 h-4 w-4' />
                 Edit Profile
               </Button>
             ) : (
               <Button
-                size="sm"
-                className="rounded-full bg-purple-500 hover:bg-purple-600 text-white"
+                size='sm'
+                className='rounded-full bg-purple-500 text-white hover:bg-purple-600'
               >
-                <Zap className="w-4 h-4 mr-1" />
+                <Zap className='mr-1 h-4 w-4' />
                 Start Learning
               </Button>
             )}
           </div>
 
-          <p className="text-gray-200 mt-2">{profile.role}</p>
-          <p className="text-gray-300 mt-2 line-clamp-2">{profile.bio}</p>
+          <p className='mt-2 text-gray-200'>{profile.role}</p>
+          <p className='mt-2 line-clamp-2 text-gray-300'>{profile.bio}</p>
 
-          <div className="flex items-center gap-4 mt-4 text-sm text-gray-400">
-            <div className="flex items-center gap-1">
-              <MapPin className="w-4 h-4" />
+          <div className='mt-4 flex items-center gap-4 text-sm text-gray-400'>
+            <div className='flex items-center gap-1'>
+              <MapPin className='h-4 w-4' />
               {profile.location}
             </div>
-            <div className="flex items-center gap-1">
-              <Calendar className="w-4 h-4" />
+            <div className='flex items-center gap-1'>
+              <Calendar className='h-4 w-4' />
               Joined {profile.joinedDate}
             </div>
           </div>
 
-          <div className="flex items-center gap-6 mt-4">
+          <div className='mt-4 flex items-center gap-6'>
             <div>
-              <span className="text-white font-bold">{profile.stats.following}</span>
-              <span className="text-gray-400 ml-1">Following</span>
+              <span className='font-bold text-white'>
+                {profile.stats.following}
+              </span>
+              <span className='ml-1 text-gray-400'>Following</span>
             </div>
             <div>
-              <span className="text-white font-bold">{profile.stats.followers}</span>
-              <span className="text-gray-400 ml-1">Followers</span>
+              <span className='font-bold text-white'>
+                {profile.stats.followers}
+              </span>
+              <span className='ml-1 text-gray-400'>Followers</span>
             </div>
           </div>
         </div>

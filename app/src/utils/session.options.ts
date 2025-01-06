@@ -1,18 +1,18 @@
-import { SessionOptions } from "iron-session";
+import { SessionOptions } from 'iron-session';
 
 export interface SessionData {
   address: string;
-  isLoggedIn: boolean;
+  chainId: number;
 }
 
 export const defaultSession: SessionData = {
-  address: "",
-  isLoggedIn: false,
+  address: '',
+  chainId: 0,
 };
 
 export const sessionOptions: SessionOptions = {
-  password: "complex_password_at_least_32_characters_long",
-  cookieName: "session-cookie",
+  password: 'complex_password_at_least_32_characters_long',
+  cookieName: 'session-cookie',
   cookieOptions: {
     secure: true,
   },

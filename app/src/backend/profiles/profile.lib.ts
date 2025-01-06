@@ -1,5 +1,5 @@
-import { IProfileDB } from "./profile.model";
-import { CompleteProfile, MinimalProfile } from "./profile.type";
+import { IProfileDB } from './profile.model';
+import { CompleteProfile, MinimalProfile } from './profile.type';
 
 export const toProfileResponse = (profile: IProfileDB): CompleteProfile => ({
   _id: profile._id.toString(),

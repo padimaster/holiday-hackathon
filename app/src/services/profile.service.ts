@@ -1,12 +1,12 @@
-import { ICreateProfileDto } from "@/backend/profiles/profile.type";
+import { ICreateProfileDto } from '@/backend/profiles/profile.type';
 import {
   IProfileQueryDto,
   MinimalProfile,
-} from "@/backend/profiles/profile.type";
-import { CompleteProfile, IUpdateProfileDto } from "@/backend/profiles";
-import axios from "axios";
+} from '@/backend/profiles/profile.type';
+import { CompleteProfile, IUpdateProfileDto } from '@/backend/profiles';
+import axios from 'axios';
 
-const BASE_URL = "http://localhost:3000/api/profiles";
+const BASE_URL = 'http://localhost:3000/api/profiles';
 
 export const findByHandle = async (
   handle: string

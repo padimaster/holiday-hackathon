@@ -1,20 +1,20 @@
-import { create, query } from "@/backend/profiles";
-import { NextRequest, NextResponse } from "next/server";
+import { create, query } from '@/backend/profiles';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const params = {
-      search: searchParams.get("search") || undefined,
-      address: searchParams.get("address") || undefined,
-      handle: searchParams.get("handle") || undefined,
-      role: searchParams.get("role") || undefined,
-      organization: searchParams.get("organization") || undefined,
-      limit: searchParams.get("limit")
-        ? parseInt(searchParams.get("limit")!)
+      search: searchParams.get('search') || undefined,
+      address: searchParams.get('address') || undefined,
+      handle: searchParams.get('handle') || undefined,
+      role: searchParams.get('role') || undefined,
+      organization: searchParams.get('organization') || undefined,
+      limit: searchParams.get('limit')
+        ? parseInt(searchParams.get('limit')!)
         : undefined,
-      offset: searchParams.get("offset")
-        ? parseInt(searchParams.get("offset")!)
+      offset: searchParams.get('offset')
+        ? parseInt(searchParams.get('offset')!)
         : undefined,
     };
 
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       {
-        error: error instanceof Error ? error.message : "Internal Server Error",
+        error: error instanceof Error ? error.message : 'Internal Server Error',
       },
       { status: 500 }
     );
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 
     if (!profile) {
       return NextResponse.json(
-        { error: "Profile with this handle or address already exists" },
+        { error: 'Profile with this handle or address already exists' },
         { status: 400 }
       );
     }
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       {
-        error: error instanceof Error ? error.message : "Internal Server Error",
+        error: error instanceof Error ? error.message : 'Internal Server Error',
       },
       { status: 500 }
     );

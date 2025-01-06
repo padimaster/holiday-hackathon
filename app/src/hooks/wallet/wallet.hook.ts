@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useCallback, useState } from "react";
-import { useAccount, useSignMessage } from "wagmi";
-import { SiweMessage } from "siwe";
-import { signIn, useSession } from "next-auth/react";
-import { getCsrfToken } from "next-auth/react";
+import { useCallback, useState } from 'react';
+import { useAccount, useSignMessage } from 'wagmi';
+import { SiweMessage } from 'siwe';
+import { signIn, useSession } from 'next-auth/react';
+import { getCsrfToken } from 'next-auth/react';
 
 export function useWalletAuth() {
   const { address } = useAccount();
@@ -15,17 +15,17 @@ export function useWalletAuth() {
   const signInWithWallet = useCallback(async () => {
     try {
       setLoading(true);
-      if (!address) throw new Error("No wallet connected");
+      if (!address) throw new Error('No wallet connected');
 
       const csrfToken = await getCsrfToken();
-      if (!csrfToken) throw new Error("No CSRF token");
+      if (!csrfToken) throw new Error('No CSRF token');
 
       const message = new SiweMessage({
         domain: window.location.host,
         address,
-        statement: "Sign in with your wallet to the app.",
+        statement: 'Sign in with your wallet to the app.',
         uri: window.location.origin,
-        version: "1",
+        version: '1',
         chainId: 1,
         nonce: csrfToken,
       });
@@ -34,7 +34,7 @@ export function useWalletAuth() {
         message: message.prepareMessage(),
       });
 
-      const response = await signIn("web3", {
+      const response = await signIn('web3', {
         message: JSON.stringify(message),
         signature,
         redirect: false,
@@ -46,7 +46,7 @@ export function useWalletAuth() {
 
       return response;
     } catch (error) {
-      console.error("Sign in error:", error);
+      console.error('Sign in error:', error);
       throw error;
     } finally {
       setLoading(false);

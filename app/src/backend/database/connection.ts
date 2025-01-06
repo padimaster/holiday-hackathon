@@ -1,12 +1,12 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 let isConnected = false;
 
 export const connectDB = async () => {
-  mongoose.set("strictQuery", true);
+  mongoose.set('strictQuery', true);
 
   if (!process.env.MONGODB_URI) {
-    console.error("MONGODB_URL is not set");
+    console.error('MONGODB_URL is not set');
     return;
   }
 
@@ -22,18 +22,18 @@ export const connectDB = async () => {
       maxPoolSize: 50,
     });
 
-    mongoose.connection.on("error", (error) => {
-      console.error("MongoDB connection error:", error);
+    mongoose.connection.on('error', (error) => {
+      console.error('MongoDB connection error:', error);
     });
 
-    mongoose.connection.on("disconnected", () => {
-      console.log("MongoDB disconnected");
+    mongoose.connection.on('disconnected', () => {
+      console.log('MongoDB disconnected');
       isConnected = false;
     });
 
     isConnected = true;
-    console.log("Connected to MongoDB");
+    console.log('Connected to MongoDB');
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
+    console.error('Error connecting to MongoDB:', error);
   }
 };

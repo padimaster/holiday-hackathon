@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { usePathname } from "next/navigation";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Home, Compass, Bell, User, MoreHorizontal, Pill } from "lucide-react";
-import { useUsername } from "@/hooks/useUsername";
-import { useSession } from "next-auth/react";
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Home, Compass, Bell, User, MoreHorizontal, Pill } from 'lucide-react';
+import { useUsername } from '@/hooks/useUsername';
+import { useSession } from 'next-auth/react';
 
 export default function LeftSidebar() {
   const pathname = usePathname();
@@ -15,29 +15,29 @@ export default function LeftSidebar() {
 
   const navItems = [
     {
-      title: "Home",
+      title: 'Home',
       icon: Home,
-      href: "/home",
+      href: '/home',
     },
     {
-      title: "Explore",
+      title: 'Explore',
       icon: Compass,
-      href: "/explore",
+      href: '/explore',
     },
     {
-      title: "Notifications",
+      title: 'Notifications',
       icon: Bell,
-      href: "/notifications",
+      href: '/notifications',
     },
     {
-      title: "Profile",
+      title: 'Profile',
       icon: User,
       href: `/${handle}`,
     },
     {
-      title: "More",
+      title: 'More',
       icon: MoreHorizontal,
-      href: "/more",
+      href: '/more',
     },
   ];
 
@@ -48,15 +48,15 @@ export default function LeftSidebar() {
   };
 
   return (
-    <div className="sticky top-0 flex flex-col h-screen w-72 bg-black p-6">
+    <div className='sticky top-0 flex h-screen w-72 flex-col bg-black p-6'>
       {/* Logo */}
-      <Link href="/dashboard" className="flex items-center gap-2 mb-8">
-        <Pill className="h-7 w-7 text-purple-500 rotate-12" />
-        <span className="text-white text-xl font-medium">Tech pills</span>
+      <Link href='/dashboard' className='mb-8 flex items-center gap-2'>
+        <Pill className='h-7 w-7 rotate-12 text-purple-500' />
+        <span className='text-xl font-medium text-white'>Tech pills</span>
       </Link>
 
       {/* Navigation Items */}
-      <nav className="space-y-1">
+      <nav className='space-y-1'>
         {navItems.map((item) => {
           const isActive = pathname === item.href;
 
@@ -65,29 +65,29 @@ export default function LeftSidebar() {
               key={item.title}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-lg transition-colors",
+                'flex items-center gap-3 rounded-lg px-4 py-3 transition-colors',
                 isActive
-                  ? "bg-purple-600 text-white font-medium"
-                  : "text-gray-300 hover:text-white hover:bg-gray-900"
+                  ? 'bg-purple-600 font-medium text-white'
+                  : 'text-gray-300 hover:bg-gray-900 hover:text-white'
               )}
             >
               <item.icon
                 className={cn(
-                  "h-6 w-6",
-                  isActive ? "text-white" : "text-gray-300"
+                  'h-6 w-6',
+                  isActive ? 'text-white' : 'text-gray-300'
                 )}
               />
-              <span className="text-base">{item.title}</span>
+              <span className='text-base'>{item.title}</span>
             </Link>
           );
         })}
       </nav>
 
       {/* Drop Button */}
-      <div className="mt-auto">
+      <div className='mt-auto'>
         <Button
-          className="w-full bg-purple-600 hover:bg-purple-700 text-white py-6 text-base font-medium rounded-xl"
-          size="lg"
+          className='w-full rounded-xl bg-purple-600 py-6 text-base font-medium text-white hover:bg-purple-700'
+          size='lg'
           onClick={handleButton}
         >
           Drop
