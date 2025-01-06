@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "hardhat compile",
-    "deploy-zksync": "hardhat deploy-zksync --script deploy-storage.ts --network lensTestnet"
+    "deploy-zksync": "hardhat deploy-zksync --script deploy-zksync.ts --network lensTestnet"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +23,7 @@
     "@types/mocha": ">=9.1.0",
     "@types/node": ">=18.0.0",
     "chai": "^4.2.0",
+    "ethers": "^6.13.0",
     "hardhat": "^2.22.17",
     "hardhat-gas-reporter": "^1.0.8",
     "solidity-coverage": "^0.8.0",
