@@ -65,10 +65,10 @@ graph LR
 [🔧 GitHub Repository](https://github.com/padimaster/holiday-hackathon)
 
 ## 🌐 Preview Link
-[🌟 Preview the Platform](https://your-platform-preview-link.com)
+[🌟 Preview the Platform](https://holiday-hackathon-three.vercel.app/home)
 
 ## 🎥 Demo Video/Slide Deck Link
-[🎬 Demo Video]([https://your-demo-video-link.com](https://1drv.ms/v/s!AulCBAJ0X5uKm-h9OWOl_8qCTblA-A?e=D5B9bH))
+[🎬 Demo Video](https://1drv.ms/v/s!AulCBAJ0X5uKm-h9OWOl_8qCTblA-A?e=D5B9bH)
 
 ## 🖼️ Screenshots!
 
