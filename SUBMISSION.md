@@ -32,7 +32,6 @@
 4. **🔍 Content Exploration**: Users can browse and explore content 🧾 by others.
 5. **🖋️ Post Creation**: Users can create and drop "💊 Pills" focused on tech topics.
 6. **💸 Tipping Mechanism**: Users can tip 💵 content creators 🧑‍🎨 for valuable posts.
-7. **🏆 Leaderboard Display**: User scores 🎖️ and avatars 👤 are visible on profiles 🖼️ to incentivize activity 🏅.
 
 ## 🏗️ Architecture and Workflow
 ```mermaid
@@ -43,7 +42,6 @@ graph TD
     B --> E[💊 Drop Pills]
     B --> F[💸 Receive Tips]
     F -->|🔄 Update| G[🎯 User Points & Score]
-    G --> H[🏆 Leaderboard Display]
     E --> F
     D --> F
 ```
@@ -57,7 +55,6 @@ graph LR
     Explore --> Publish[✍️ Publish Pills]
     Publish --> Engagement[💸 Earn Tips & Likes 👍]
     Engagement --> Points[🎯 Accumulate Points]
-    Points --> Display[🏆 Leaderboard Display]
 ```
 ## 🎥 Project overview
 [🎬 Pitch video ](https://1drv.ms/v/s!AulCBAJ0X5uKm-hUmuDxKFgRE24vEg?e=nFBmy0)
