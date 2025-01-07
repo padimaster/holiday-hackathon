@@ -3,7 +3,7 @@ import type { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox-viem";
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.28",
+  solidity: "0.8.24",
   zksolc: {
     version: "latest",
     settings: {},
@@ -21,6 +21,9 @@ const config: HardhatUserConfig = {
       zksync: true,
     },
   },
+  mocha: {
+    timeout: 120000 // 2 minutes
+  }
 };
 
 export default config;
