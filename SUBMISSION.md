@@ -4,10 +4,10 @@
 **Tech 💊 Pills**
 
 ## 👥 Team Members
-- [👤 Gabriela ] (@YourLensHandle)
-- [👤 Alex ] ( @padimaster )
-- [👤 Carlos ] (@carlos_israelj)
-- [👤 Paul ] (@Oxarcano)
+- 👤 Gabriela    Github: [Galix-neko](https://github.com/Galix-neko)   Telegram: @galixneko
+- 👤 Alex        Github: [padimaster](https://github.com/padimaster)   Telegram: @padimaster
+- 👤 Carlos      Github: [cijimenez](https://github.com/cijimenez)     Telegram: @carlos_israelj
+- 👤 Paul        Github: [0xarcano](https://github.com/0xarcano)       Telegram: @Oxarcano
 
 ## 📜 Project Description
 **Tech 💊 Pills** is a SocialFi 🌐 platform built on Lens 🧬 Protocol Testnet 🧪 designed to empower tech enthusiasts 💻 to create 🛠️, explore 🧭, and learn 📚 while earning 💰 rewards. The platform is geared towards individuals 👥 who wish to share 🔄 and consume 🍽️ knowledge 📖 in an engaging 🕹️, gamified 🎮 manner. Users can:
@@ -58,9 +58,11 @@ graph LR
     Engagement --> Points[🎯 Accumulate Points]
     Points --> Display[🏆 Leaderboard Display]
 ```
+## 🎥 Project overview
+[🎬 Pitch video ](https://1drv.ms/v/s!AulCBAJ0X5uKm-hUmuDxKFgRE24vEg?e=nFBmy0)
 
 ## 🔗 Source Code Link
-[🔧 GitHub Repository](https://github.com/YourGitHubRepo/tech-pills)
+[🔧 GitHub Repository](https://github.com/padimaster/holiday-hackathon)
 
 ## 🌐 Preview Link
 [🌟 Preview the Platform](https://your-platform-preview-link.com)
