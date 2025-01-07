@@ -6,7 +6,9 @@
   "author": "Alex Padilla <alex.padilla@epn.edu.ec>",
   "scripts": {
     "compile": "pnpm --filter contracts run compile",
-    "deploy": "pnpm --filter contracts run deploy-zksync"
+    "deploy": "pnpm --filter contracts run deploy-zksync",
+    "build": "pnpm --filter app run build",
+    "start": "pnpm --filter app run start"
   },
   "license": "MIT",
   "engines": {
