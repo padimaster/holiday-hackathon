@@ -113,3 +113,8 @@ graph LR
 ---
 ![Create post modal](https://github.com/user-attachments/assets/e206650d-aa3c-4065-b910-449b6033ea2b)
 ---
+#### Sign up Welcome reward
+---
+![Sign up Welcome reward](https://github.com/user-attachments/assets/dd96a9d6-6d1a-4b80-acde-503d69bc7fc0)
+---
+
