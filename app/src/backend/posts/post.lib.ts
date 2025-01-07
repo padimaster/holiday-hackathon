@@ -1,3 +1,4 @@
+import { Address } from 'viem';
 import { IPopulatedPostDB, IPostDB } from './post.model';
 import { IPopulatedPost, IPost } from './post.type';
 
@@ -34,6 +35,7 @@ export const parsePopulatedPost = (post: IPopulatedPostDB): IPopulatedPost => {
       handle: post.profileId.handle,
       name: post.profileId.name,
       avatar: post.profileId.avatar,
+      address: post.profileId.address as Address,
     },
   };
 };

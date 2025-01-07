@@ -1,8 +1,14 @@
+'use client';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatDistanceToNow } from 'date-fns';
 import { IPopulatedPost } from '@/backend/posts';
 import PostActions from './post-actions';
 import PostImage from './post-image';
+import { Button } from '@/components/ui/button';
+import { CreditCard } from 'lucide-react';
+import { TipModal } from './tip-modal';
+import { useState } from 'react';
 
 interface PostItemProps {
   post: IPopulatedPost;
@@ -13,10 +19,28 @@ export default function PostItem({ post }: PostItemProps) {
     addSuffix: true,
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const { profile } = post;
 
   return (
-    <article className='group transition-colors hover:bg-gray-900/50'>
+    <article className='group relative transition-colors hover:bg-gray-900/50'>
+      {/* Tip Button and Modal */}
+      <Button
+        variant='ghost'
+        size='sm'
+        className='absolute right-4 top-3 text-gray-400 hover:bg-primary/10 hover:text-primary'
+        onClick={() => setIsModalOpen(true)}
+      >
+        <CreditCard className='h-5 w-5' />
+      </Button>
+
+      <TipModal
+        post={post}
+        isOpen={isModalOpen}
+        onOpenChange={setIsModalOpen}
+      />
+
       <div className='px-4 py-3'>
         <div className='flex gap-3'>
           {/* Profile Section */}

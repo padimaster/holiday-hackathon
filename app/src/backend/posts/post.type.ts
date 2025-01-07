@@ -1,3 +1,5 @@
+import { Address } from "viem";
+
 export interface IBasePostDto {
   _id?: string;
   title: string;
@@ -36,5 +38,6 @@ export interface IPopulatedPost extends Omit<IPost, 'profileId'> {
     handle: string;
     name: string;
     avatar: string;
+    address: Address;
   };
 }
