@@ -6,7 +6,7 @@ export const connectDB = async () => {
   mongoose.set('strictQuery', true);
 
   if (!process.env.MONGODB_URI) {
-    console.error('MONGODB_URL is not set');
+    console.error('MONGODB_URI is not set');
     return;
   }
 
