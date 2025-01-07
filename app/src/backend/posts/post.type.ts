@@ -39,5 +39,6 @@ export interface IPopulatedPost extends Omit<IPost, 'profileId'> {
     name: string;
     avatar: string;
     address: Address;
+    techScore: number;
   };
 }

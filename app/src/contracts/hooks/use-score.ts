@@ -67,10 +67,43 @@ export function useScoreContract() {
     [address, ensureWalletConnected, publicClient, walletClient]
   );
 
+  const registerPost = useCallback(
+    async (creator: Address): Promise<Hash> => {
+      try {
+        ensureWalletConnected();
+
+        if (!publicClient) throw new Error('Public client not initialized');
+
+        const data = {
+          account: address as Hex,
+          address: contractAddresses.scoreManager as Hex,
+          abi: ScoreManagerContract.abi,
+          functionName: 'registerWrittenPost',
+          args: [creator as Address],
+        };
+
+        console.log('data', data);
+
+        const { request } = await publicClient.simulateContract(data);
+
+        if (!walletClient)
+          throw new Error('walletClient client not initialized');
+        return await walletClient.writeContract(request);
+      } catch (error) {
+        console.error('Error sending tip:', error);
+        throw new Error(
+          `Failed to send tip: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
+      }
+    },
+    [address, ensureWalletConnected, publicClient, walletClient]
+  );
+
   return useMemo(
     () => ({
       registerTip,
+      registerPost,
     }),
-    [registerTip]
+    [registerTip, registerPost]
   );
 }

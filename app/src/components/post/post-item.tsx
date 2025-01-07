@@ -9,6 +9,12 @@ import { Button } from '@/components/ui/button';
 import { CreditCard } from 'lucide-react';
 import { TipModal } from './tip-modal';
 import { useState } from 'react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../ui/tooltip';
 
 interface PostItemProps {
   post: IPopulatedPost;
@@ -44,15 +50,39 @@ export default function PostItem({ post }: PostItemProps) {
       <div className='px-4 py-3'>
         <div className='flex gap-3'>
           {/* Profile Section */}
-          <Avatar className='h-10 w-10 flex-shrink-0'>
-            <AvatarImage
-              src={profile.avatar}
-              alt={`${profile.name}'s avatar`}
-            />
-            <AvatarFallback aria-label={`${profile.name}'s avatar fallback`}>
-              {profile.name[0]}
-            </AvatarFallback>
-          </Avatar>
+          <div className='relative aspect-square'>
+            <Avatar className='relative h-10 w-10 rounded-full border border-gray-700/50'>
+              <AvatarImage
+                src={profile.avatar}
+                alt={`${profile.name}'s avatar`}
+              />
+              <AvatarFallback aria-label={`${profile.name}'s avatar fallback`}>
+                {profile.name[0]}
+              </AvatarFallback>
+            </Avatar>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  {profile.techScore > 0 && (
+                    <div className='border-1 absolute -right-1 -top-1 flex h-5 w-5 cursor-help items-center justify-center rounded-full border-gray-900 bg-purple-500'>
+                      <span className='text-xs font-bold text-white'>
+                        {profile.techScore}
+                      </span>
+                    </div>
+                  )}
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className='font-semibold'>
+                    Tech Score: {profile.techScore}
+                  </p>
+                  <p className='text-sm text-gray-400'>
+                    Overall learning achievement
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
 
           <div className='min-w-0 flex-1'>
             {/* Header Section */}

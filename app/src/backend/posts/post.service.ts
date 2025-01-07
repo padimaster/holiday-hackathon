@@ -105,7 +105,7 @@ export const getAllPosts = async ({
   const [posts, total] = await Promise.all([
     query.populate({
       path: 'profileId',
-      select: '_id handle name avatar address',
+      select: '_id handle name avatar address techScore',
       model: 'Profile',
     }),
     Post.countDocuments(),
