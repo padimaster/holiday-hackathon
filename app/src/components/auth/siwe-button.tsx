@@ -7,7 +7,7 @@ import {
   signIn as nextAuthSignIn,
   signOut as nextAuthSignOut,
 } from 'next-auth/react';
-import { SIWESession, useSIWE, useModal } from 'connectkit';
+import { SIWESession, useSIWE, useModal, ConnectKitButton } from 'connectkit';
 import { useAccount, useDisconnect } from 'wagmi';
 import { ProfileButton } from './profile-button';
 
@@ -76,16 +76,10 @@ export const SIWEButton = () => {
               Awaiting request...
             </>
           ) : (
-            'Sign in with Ethereum'
+            'Sign in'
           )}
         </Button>
-        <Button
-          onClick={() => disconnect}
-          disabled={isLoading}
-          className={`rounded-full ${BUTTON_HEIGHT} bg-purple-800 text-white`}
-        >
-          Sign Out
-        </Button>
+        <ConnectKitButton></ConnectKitButton>
       </>
     );
   }

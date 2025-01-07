@@ -58,6 +58,7 @@ export const authOptions: NextAuthOptions = {
             address: profile.address,
             handle: profile.handle,
             avatar: profile.avatar,
+            techScore: profile.stats.techScore,
           } satisfies MinimalProfile;
 
           console.log('profile:', minimalProfile);

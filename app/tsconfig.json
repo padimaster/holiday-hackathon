@@ -23,8 +23,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "typeRoots": ["./node_modules/@types", "./node_modules/iron-session/dist"],
-    "types": ["iron-session"]
+    "typeRoots": ["./node_modules/@types", "./node_modules/iron-session/dist"]
   },
   "include": [
     "**/*.ts",
