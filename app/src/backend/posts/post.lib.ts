@@ -36,6 +36,7 @@ export const parsePopulatedPost = (post: IPopulatedPostDB): IPopulatedPost => {
       name: post.profileId.name,
       avatar: post.profileId.avatar,
       address: post.profileId.address as Address,
+      techScore: post.profileId.techScore,
     },
   };
 };

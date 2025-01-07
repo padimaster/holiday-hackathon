@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/dialog';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useContractService } from '@/contracts/tokenomics/use-tokenomic';
+import { useTokenContract } from '@/contracts/hooks/use-tokenomic';
 
 interface TipModalProps {
   post: IPopulatedPost;
@@ -28,7 +28,7 @@ export function TipModal({ post, isOpen, onOpenChange }: TipModalProps) {
   const [amount, setAmount] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const contractService = useContractService();
+  const contractService = useTokenContract();
 
   const validateAmount = (value: string): boolean => {
     const numValue = parseFloat(value);
@@ -121,7 +121,10 @@ export function TipModal({ post, isOpen, onOpenChange }: TipModalProps) {
               />
             </div>
             <div className='text-sm text-muted-foreground'>
-              Recipient: @{post.profile.handle}
+              <strong>Recipient:</strong> @{post.profile.handle}
+            </div>
+            <div className='text-sm text-muted-foreground'>
+              <strong>Creator Address:</strong> {post.profile.address}
             </div>
           </div>
           <DialogFooter>

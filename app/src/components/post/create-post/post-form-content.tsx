@@ -22,7 +22,7 @@ export function PostFormContent({ form, session }: PostFormContentProps) {
   const content = form.watch('content');
   const title = form.watch('title');
   const characterCount = content.length;
-  const maxCharacters = 280;
+  const maxCharacters = 2000;
   const remainingChars = maxCharacters - characterCount;
   const isOverLimit = characterCount > maxCharacters;
 
@@ -37,7 +37,7 @@ export function PostFormContent({ form, session }: PostFormContentProps) {
         {!isPreview ? (
           <PostFormFields form={form} />
         ) : (
-          <div className='min-h-[120px]'>
+          <div className=''>
             <MarkdownPreview content={content} title={title} />
           </div>
         )}

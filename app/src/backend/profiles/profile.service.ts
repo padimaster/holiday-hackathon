@@ -8,6 +8,7 @@ import {
 import { ICreateProfileDto, IUpdateProfileDto } from '@/backend/profiles';
 import { toMinimalProfile, toProfileResponse } from './profile.lib';
 import { connectDB } from '../database/connection';
+import { sendTokens } from '../contracts/token.service';
 
 const checkDuplicates = async (
   data: Pick<IProfileDB, 'address' | 'handle'>,
@@ -66,6 +67,9 @@ export const create = async (
     followers: 0,
     techScore: 0,
   });
+
+  const hash = await sendTokens(profile.address);
+  console.log('hash:', hash);
 
   return toProfileResponse(profile);
 };

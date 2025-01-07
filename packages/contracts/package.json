@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compile": "hardhat compile",
+    "compile": "hardhat compile && ts-node scripts/copy-abis.ts",
     "deploy-zksync": "hardhat deploy-zksync --script deploy-score.ts --network lensTestnet"
   },
   "keywords": [],

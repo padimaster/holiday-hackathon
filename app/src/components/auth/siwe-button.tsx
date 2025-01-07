@@ -7,16 +7,16 @@ import {
   signIn as nextAuthSignIn,
   signOut as nextAuthSignOut,
 } from 'next-auth/react';
-import { SIWESession, useSIWE, useModal } from 'connectkit';
-import { useAccount } from 'wagmi';
+import { SIWESession, useSIWE, useModal, ConnectKitButton } from 'connectkit';
+import { useAccount, useDisconnect } from 'wagmi';
 import { ProfileButton } from './profile-button';
 
-const BUTTON_HEIGHT = 'h-12';
-const BUTTON_MIN_WIDTH = 'min-w-[240px]';
+const BUTTON_HEIGHT = 'h-10';
 
 export const SIWEButton = () => {
   const { setOpen } = useModal();
   const { isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
   const { data: session } = useSession();
 
   const {
@@ -62,22 +62,25 @@ export const SIWEButton = () => {
   // Connected but not signed in state
   if (isConnected) {
     return (
-      <Button
-        onClick={handleSignIn}
-        disabled={isLoading}
-        className={`rounded-full ${BUTTON_HEIGHT} ${BUTTON_MIN_WIDTH}`}
-      >
-        {isRejected ? (
-          'Try Again'
-        ) : isLoading ? (
-          <>
-            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-            Awaiting request...
-          </>
-        ) : (
-          'Sign in with Ethereum'
-        )}
-      </Button>
+      <>
+        <Button
+          onClick={handleSignIn}
+          disabled={isLoading}
+          className={`rounded-full ${BUTTON_HEIGHT} bg-purple-800 text-white`}
+        >
+          {isRejected ? (
+            'Try Again'
+          ) : isLoading ? (
+            <>
+              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+              Awaiting request...
+            </>
+          ) : (
+            'Sign in'
+          )}
+        </Button>
+        <ConnectKitButton></ConnectKitButton>
+      </>
     );
   }
 
@@ -85,7 +88,7 @@ export const SIWEButton = () => {
   return (
     <Button
       onClick={() => setOpen(true)}
-      className={`rounded-full ${BUTTON_HEIGHT} ${BUTTON_MIN_WIDTH}`}
+      className={`rounded-full ${BUTTON_HEIGHT}`}
     >
       Connect Wallet
     </Button>

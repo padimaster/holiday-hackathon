@@ -32,6 +32,7 @@ export interface MinimalProfile {
   name: string;
   avatar: string;
   address: string;
+  techScore: number;
 }
 
 export interface CompleteProfile extends IBaseProfileDto {

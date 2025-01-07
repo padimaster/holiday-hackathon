@@ -26,4 +26,5 @@ export const toMinimalProfile = (profile: IProfileDB): MinimalProfile => ({
   name: profile.name,
   avatar: profile.avatar,
   address: profile.address,
+  techScore: profile.techScore,
 });

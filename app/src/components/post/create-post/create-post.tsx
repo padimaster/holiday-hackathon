@@ -11,11 +11,15 @@ import { createPostSchema } from '@/backend/posts/post.validations';
 import { useCreatePost } from '@/hooks/post/use-post';
 import { PostFormHeader } from './post-form-header';
 import { PostFormContent } from './post-form-content';
+import { useScoreContract } from '@/contracts/hooks/use-score';
+import { useAccount } from 'wagmi';
 
 export default function CreatePost() {
   const { data: session } = useSession();
   const { toast } = useToast();
   const { mutateAsync } = useCreatePost();
+  const { address } = useAccount();
+  const { registerPost } = useScoreContract();
 
   const form = useForm<ICreatePostDto>({
     resolver: zodResolver(createPostSchema),
@@ -49,6 +53,10 @@ export default function CreatePost() {
       });
 
       await mutateAsync(formData);
+      if (!address) {
+        throw new Error('Wallet address is required');
+      }
+      await registerPost(address);
       form.reset();
       toast({
         title: 'Success',

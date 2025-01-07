@@ -28,11 +28,10 @@ interface UserProfileProps {
 
 export function UserProfile({ profile, isOwner = false }: UserProfileProps) {
   const stats = {
-    techScore: 10,
     learningLevel: 3,
-    streak: 7,
-    activePills: 3,
-    completedPills: 12,
+    activePills: 5,
+    streak: 12,
+    completedPills: 25,
   };
 
   return (
@@ -60,12 +59,14 @@ export function UserProfile({ profile, isOwner = false }: UserProfileProps) {
                 <TooltipTrigger asChild>
                   <div className='absolute -right-2 -top-2 flex h-12 w-12 cursor-help items-center justify-center rounded-full border-4 border-gray-900 bg-purple-500'>
                     <span className='text-xl font-bold text-white'>
-                      {stats.techScore}
+                      {profile.stats.techScore}
                     </span>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p className='font-semibold'>Tech Score: {stats.techScore}</p>
+                  <p className='font-semibold'>
+                    Tech Score: {profile.stats.techScore}
+                  </p>
                   <p className='text-sm text-gray-400'>
                     Overall learning achievement
                   </p>
