@@ -1,12 +1,20 @@
 'use client';
 
 import { useCallback, useMemo } from 'react';
-import { Abi, Address, Hash, Hex, formatEther, parseEther } from 'viem';
+import {
+  Abi,
+  Address,
+  Hash,
+  Hex,
+  parseEther,
+  parseUnits,
+} from 'viem';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 import { contractAddresses } from '../utils';
 import TipManagerContract from '../abis/TipManager.json';
 import TokenManagerContract from '../abis/TokenManager.json';
 import TechBitesContract from '../abis/TechBites.json';
+import { useScoreContract } from './use-score';
 
 interface TipTransaction {
   creator: Address;
@@ -14,10 +22,11 @@ interface TipTransaction {
   postId: string;
 }
 
-export function useContractService() {
+export function useTokenContract() {
   const { address } = useAccount();
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
+  const { registerTip } = useScoreContract();
 
   const ensureWalletConnected = useCallback(() => {
     if (!address || !walletClient) {
@@ -69,12 +78,22 @@ export function useContractService() {
           address: contractAddresses.tipManager as Hex,
           abi: TipManagerContract.abi,
           functionName: 'tip',
-          args: [tipData.creator as Hex, tipData.amount, tipData.postId],
+          args: [
+            tipData.creator as Hex,
+            tipData.amount.toString(),
+            tipData.postId,
+          ],
         });
 
         if (!walletClient)
           throw new Error('walletClient client not initialized');
-        return await walletClient.writeContract(request);
+        await walletClient.writeContract(request);
+
+        return await registerTip({
+          creator: tipData.creator as Hex,
+          postId: tipData.postId,
+          amount: parseEther(tipData.amount.toString()),
+        });
       } catch (error) {
         console.error('Error sending tip:', error);
         throw new Error(
@@ -88,6 +107,7 @@ export function useContractService() {
       publicClient,
       walletClient,
       approveTokenSpending,
+      registerTip,
     ]
   );
 

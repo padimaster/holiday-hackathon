@@ -47,4 +47,5 @@ export const contractAddresses = {
   tipManager: process.env.NEXT_PUBLIC_TIP_MANAGER_CONTRACT_ADDRESS as Address,
   tokenManager: process.env
     .NEXT_PUBLIC_TOKEN_MANAGER_CONTRACT_ADDRESS as Address,
+  scoreManager: process.env.NEXT_PUBLIC_SCORE_MANAGER_CONTRACT_ADDRESS as Address,
 } as const;
