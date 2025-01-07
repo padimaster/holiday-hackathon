@@ -87,6 +87,10 @@ graph LR
 ---
 ![Signed up](https://github.com/user-attachments/assets/195b0014-8bd5-4fbc-ae3c-69988f96a2d5)
 ---
+#### Sign up Welcome reward
+---
+![Sign up Welcome reward](https://github.com/user-attachments/assets/dd96a9d6-6d1a-4b80-acde-503d69bc7fc0)
+---
 #### Home
 ---
 ![Home](https://github.com/user-attachments/assets/3b96cb47-19d8-4858-8854-152ae703d87a)
@@ -114,9 +118,5 @@ graph LR
 #### Create post modal
 ---
 ![Create post modal](https://github.com/user-attachments/assets/e206650d-aa3c-4065-b910-449b6033ea2b)
----
-#### Sign up Welcome reward
----
-![Sign up Welcome reward](https://github.com/user-attachments/assets/dd96a9d6-6d1a-4b80-acde-503d69bc7fc0)
 ---
 
