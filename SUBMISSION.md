@@ -69,17 +69,40 @@ graph LR
 ## 🎥 Demo Video/Slide Deck Link
 [🎬 Demo Video](https://your-demo-video-link.com)
 
-## 🖼️ Screenshots
-![👤 Profile Page Screenshot](https://your-image-link.com/profile-page)
-![🧾 Content Feed Screenshot](https://your-image-link.com/content-feed)
-![🏆 Leaderboard Screenshot](https://your-image-link.com/leaderboard)
+## 🖼️ Screenshots!
 
-## 🛠️ Troubleshooting
-For any questions or issues 🛑, please contact 📬 the Lens developer community via [Telegram 💬](https://t.me/LensProtocolCommunity). Remember to:
-- 💬 Ask in public channels.
-- 🙏 Respect others and be patient 🕰️ during holiday periods 🎄.
+#### Landing page
+![ Landing Page](![1 Landing Page](https://github.com/user-attachments/assets/60686093-d124-41b7-b074-ce2f925c8c8f)
+)
+#### Family Connect Kit
+![ Family Connect Kit](![2 Family Connect Kit](https://github.com/user-attachments/assets/f6c0b48e-e3cb-42ef-9aa9-92716e3c7c13)
+)
+#### Sign Up
+![ Sign Up](![3 Sign up](https://github.com/user-attachments/assets/1be068fd-f26f-44d3-89bb-f3f8a37bca1f)
+)
+#### Signed Up
+![ Signed Up](![4 Signed up](https://github.com/user-attachments/assets/195b0014-8bd5-4fbc-ae3c-69988f96a2d5)
+)
+#### Home
+![ Home ](![5 Home](https://github.com/user-attachments/assets/3b96cb47-19d8-4858-8854-152ae703d87a)
+)
+#### Profile
+![ Profile ](![6 Profile](https://github.com/user-attachments/assets/20e7471a-d002-4401-97c7-ca7a1522ef48)
+)
+#### Writting a post
+![ Writting a post](![7Writting a post](https://github.com/user-attachments/assets/df53b3df-10f3-4084-ae8b-373401fcbc52)
+)
+#### Preview of post
+![ Preview of post](![8 Preview of post](https://github.com/user-attachments/assets/ae1a60e9-6968-4df7-8325-184b69ddb62d)
+)
+#### Published post
+![ Published post](![9 Published post](https://github.com/user-attachments/assets/750c0400-1683-4bb5-a182-fafe5b2c805a)
+)
+#### Send Tip Form
+![ Send Tip Form](![10 Send tip form](https://github.com/user-attachments/assets/02339371-cd2f-4d35-bf77-6567c9e6baf6)
+)
+#### Create post modal
+![ Create post modal](![11 Create post modal](https://github.com/user-attachments/assets/e206650d-aa3c-4065-b910-449b6033ea2b)
+)
 
-## 📝 Notes
-- Submission adheres to the hackathon rules 📜 and is open source 💻.
-- The platform integrates Lens Protocol 🧬 and is deployed on the Testnet 🧪.
-- All code 💾 and commits align with the guidelines 📋, ensuring validity and eligibility for prizes 🏅.
+
