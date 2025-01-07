@@ -68,7 +68,7 @@ graph LR
 [🌟 Preview the Platform](https://your-platform-preview-link.com)
 
 ## 🎥 Demo Video/Slide Deck Link
-[🎬 Demo Video](https://your-demo-video-link.com)
+[🎬 Demo Video]([https://your-demo-video-link.com](https://1drv.ms/v/s!AulCBAJ0X5uKm-h9OWOl_8qCTblA-A?e=D5B9bH))
 
 ## 🖼️ Screenshots!
 
