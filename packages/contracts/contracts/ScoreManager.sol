@@ -22,7 +22,7 @@ contract ScoreManager is Ownable {
         Ownable(initialOwner) 
     {}
 
-    function registerWrittenPost(address creatorAddress) external onlyOwner {
+    function registerWrittenPost(address creatorAddress) external {
         require(creatorAddress != address(0), "Invalid creator address");
         
         creatorStats[creatorAddress].postsCount += 1;
@@ -34,7 +34,7 @@ contract ScoreManager is Ownable {
         address creator,
         uint256 amount,
         string calldata postId
-    ) external onlyOwner {
+    ) external {
         require(creator != address(0), "Invalid creator address");
         require(amount > 0, "Amount must be greater than 0");
         
@@ -47,7 +47,7 @@ contract ScoreManager is Ownable {
     function registerLike(
         address creator,
         string calldata postId
-    ) external onlyOwner {
+    ) external {
         require(creator != address(0), "Invalid creator address");
         
         creatorStats[creator].likesReceived += 1;
