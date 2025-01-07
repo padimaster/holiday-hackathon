@@ -7,7 +7,7 @@
   "scripts": {
     "compile": "pnpm --filter contracts run compile",
     "deploy": "pnpm --filter contracts run deploy-zksync",
-    "build": "pnpm --filter app run build",
+    "build": "pnpm --filter app run build --output public",
     "start": "pnpm --filter app run start"
   },
   "license": "MIT",
