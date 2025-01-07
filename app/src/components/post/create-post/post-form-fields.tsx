@@ -44,7 +44,7 @@ export function PostFormFields({ form }: PostFormFieldsProps) {
               <Textarea
                 {...field}
                 placeholder='Share your knowledge...'
-                className='min-h-[120px] resize-none border-none bg-transparent text-white/80 placeholder-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0'
+                className='h-[300px] resize-none border-none bg-transparent text-white/80 placeholder-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0'
               />
             </FormControl>
             <FormMessage />

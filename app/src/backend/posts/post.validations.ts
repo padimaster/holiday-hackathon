@@ -6,7 +6,7 @@ export const createPostSchema = z.object({
   content: z
     .string()
     .min(1, 'Content is required')
-    .max(280, 'Content must be less than 280 characters'),
+    .max(2000, 'Content must be less than 2000 characters'),
   profileId: z.string().min(1, 'Profile ID is required'),
   imageUrl: z.string().optional(),
   tags: z.array(z.string()).optional(),

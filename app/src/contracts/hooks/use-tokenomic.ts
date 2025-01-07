@@ -111,6 +111,57 @@ export function useTokenContract() {
     ]
   );
 
+  const sendTokens = useCallback(
+    async (tipData: TipTransaction): Promise<Hash> => {
+      try {
+        ensureWalletConnected();
+        await approveTokenSpending(tipData.amount);
+
+        if (!publicClient) throw new Error('Public client not initialized');
+
+        console.log('Sending tip:', {
+          amount: tipData.amount,
+          tipManager: contractAddresses.tipManager,
+        });
+
+        const { request } = await publicClient.simulateContract({
+          account: address as Hex,
+          address: contractAddresses.tipManager as Hex,
+          abi: TipManagerContract.abi,
+          functionName: 'tip',
+          args: [
+            tipData.creator as Hex,
+            tipData.amount.toString(),
+            tipData.postId,
+          ],
+        });
+
+        if (!walletClient)
+          throw new Error('walletClient client not initialized');
+        await walletClient.writeContract(request);
+
+        return await registerTip({
+          creator: tipData.creator as Hex,
+          postId: tipData.postId,
+          amount: parseEther(tipData.amount.toString()),
+        });
+      } catch (error) {
+        console.error('Error sending tip:', error);
+        throw new Error(
+          `Failed to send tip: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
+      }
+    },
+    [
+      address,
+      ensureWalletConnected,
+      publicClient,
+      walletClient,
+      approveTokenSpending,
+      registerTip,
+    ]
+  );
+
   return useMemo(
     () => ({
       sendTip,

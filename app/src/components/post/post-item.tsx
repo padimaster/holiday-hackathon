@@ -15,6 +15,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '../ui/tooltip';
+import { MarkdownPreview } from './create-post/markdown-preview';
 
 interface PostItemProps {
   post: IPopulatedPost;
@@ -104,7 +105,9 @@ export default function PostItem({ post }: PostItemProps) {
             </div>
 
             {/* Content Section */}
-            <div className='mt-2 break-words text-gray-100'>{post.content}</div>
+            <div className='mt-2 break-words text-gray-100'>
+              <MarkdownPreview title={post.title} content={post.content} />
+            </div>
 
             {/* Image Section */}
             {post.imageUrl && <PostImage imageUrl={post.imageUrl} />}

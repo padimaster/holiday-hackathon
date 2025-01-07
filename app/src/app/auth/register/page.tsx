@@ -143,7 +143,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-black via-zinc-900 to-black px-4 py-10 sm:px-6'>
+    <div className='min-h-screen bg-gradient-to-br from-black via-zinc-900 to-black px-4 py-10 sm:px-6 pt-[7rem]'>
       <Card className='mx-auto max-w-lg border border-purple-500/20 bg-black/40 backdrop-blur-xl'>
         <CardHeader className='space-y-1'>
           <div className='mb-4 flex items-center justify-center space-x-2'>
@@ -160,19 +160,6 @@ export default function SignUpPage() {
         </CardHeader>
 
         <CardContent className='space-y-6'>
-          <div className='flex justify-center'>
-            <ConnectKitButton
-              customTheme={{
-                '--ck-connectbutton-background': 'rgba(139, 92, 246, 0.1)',
-                '--ck-connectbutton-hover-background':
-                  'rgba(139, 92, 246, 0.2)',
-                '--ck-connectbutton-active-background':
-                  'rgba(139, 92, 246, 0.3)',
-                '--ck-connectbutton-color': '#fff',
-              }}
-            />
-          </div>
-
           {error && (
             <Alert
               variant='destructive'

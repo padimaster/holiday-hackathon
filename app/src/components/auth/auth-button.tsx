@@ -32,7 +32,7 @@ export interface MinimalProfile {
 
 export const AuthButton = () => {
   return (
-    <div>
+    <div className='flex gap-2'>
       <SIWEButton></SIWEButton>
     </div>
   );

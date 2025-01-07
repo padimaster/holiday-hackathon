@@ -121,7 +121,10 @@ export function TipModal({ post, isOpen, onOpenChange }: TipModalProps) {
               />
             </div>
             <div className='text-sm text-muted-foreground'>
-              Recipient: @{post.profile.handle}
+              <strong>Recipient:</strong> @{post.profile.handle}
+            </div>
+            <div className='text-sm text-muted-foreground'>
+              <strong>Creator Address:</strong> {post.profile.address}
             </div>
           </div>
           <DialogFooter>

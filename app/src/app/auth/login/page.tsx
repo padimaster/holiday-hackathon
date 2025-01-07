@@ -3,25 +3,9 @@
 import { motion } from 'framer-motion';
 import Logo from '@/components/common/logo';
 
-import { AuthButton } from '@/components/auth/auth-button';
-import Link from 'next/link';
-
 export default function Home() {
   return (
     <main className='flex min-h-screen items-center justify-center text-white'>
-      {/* Navigation */}
-      <nav className='fixed top-0 z-50 w-full border-b border-purple-500/20 bg-black/50 backdrop-blur-sm'>
-        <div className='container mx-auto flex items-center justify-between px-4 py-4'>
-          <Link href={'/home'}>
-            <div className='flex items-center gap-2'>
-              <Logo width={48} height={48} />
-              <span className='text-xl font-bold'>Tech Pills</span>
-            </div>
-          </Link>
-          <AuthButton />
-        </div>
-      </nav>
-
       {/* Hero Section */}
       <section className='container relative z-10 mx-auto px-4 pb-20 pt-32'>
         <div className='grid items-center gap-12 lg:grid-cols-2'>
