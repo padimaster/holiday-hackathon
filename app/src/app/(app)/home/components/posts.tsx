@@ -1,3 +1,4 @@
+// posts/index.tsx
 'use client';
 
 import PostItem from '@/components/post/post-item';
@@ -23,7 +24,6 @@ export default function Posts() {
     fetchNextPage,
     isFetchingNextPage,
   } = useAllPosts({
-    populate: true,
     limit: 10,
     enabled: !!handle,
   });

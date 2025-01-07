@@ -1,5 +1,8 @@
 'use client';
-import { ConnectKitProvider } from 'connectkit';
+
+import {
+  ConnectKitProvider,
+} from 'connectkit';
 
 export default function CustomConnectKitProvider({
   children,
@@ -28,15 +31,6 @@ export default function CustomConnectKitProvider({
         '--ck-connectbutton-balance-active-background': '#F0F2F5',
         '--ck-connectbutton-balance-active-box-shadow':
           'inset 0 0 0 1px #EAECF1',
-      }}
-      onConnect={async () => {
-        try {
-        } catch (error) {
-          window.alert(error);
-        }
-      }}
-      onDisconnect={() => {
-        console.log('Disconnected');
       }}
     >
       {children}

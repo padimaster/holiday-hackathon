@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Logo from '@/components/common/logo';
 
 import { AuthButton } from '@/components/auth/auth-button';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -11,10 +12,12 @@ export default function Home() {
       {/* Navigation */}
       <nav className='fixed top-0 z-50 w-full border-b border-purple-500/20 bg-black/50 backdrop-blur-sm'>
         <div className='container mx-auto flex items-center justify-between px-4 py-4'>
-          <div className='flex items-center gap-2'>
-            <Logo width={48} height={48} />
-            <span className='text-xl font-bold'>Tech Pills</span>
-          </div>
+          <Link href={'/home'}>
+            <div className='flex items-center gap-2'>
+              <Logo width={48} height={48} />
+              <span className='text-xl font-bold'>Tech Pills</span>
+            </div>
+          </Link>
           <AuthButton />
         </div>
       </nav>

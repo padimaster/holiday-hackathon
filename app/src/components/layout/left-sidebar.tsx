@@ -50,7 +50,7 @@ export default function LeftSidebar() {
   return (
     <div className='sticky top-0 flex h-screen w-72 flex-col bg-black p-6'>
       {/* Logo */}
-      <Link href='/dashboard' className='mb-8 flex items-center gap-2'>
+      <Link href='/home' className='mb-8 flex items-center gap-2'>
         <Pill className='h-7 w-7 rotate-12 text-purple-500' />
         <span className='text-xl font-medium text-white'>Tech pills</span>
       </Link>

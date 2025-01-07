@@ -49,6 +49,7 @@ export const authOptions: NextAuthOptions = {
           console.log('session:', session);
 
           const profile = await findByAddress(session.address);
+          console.log('profile:', profile);
 
           if (!profile) return null;
           const minimalProfile = {

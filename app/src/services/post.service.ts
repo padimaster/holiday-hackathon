@@ -2,7 +2,6 @@ import axios from 'axios';
 import { IPost, ICreatePostDto } from '@/backend/posts';
 
 export interface PostQueryParams {
-  populate?: boolean;
   limit?: number;
   offset?: number;
   handle?: string;
@@ -25,12 +24,11 @@ const api = axios.create({
 });
 
 export const getAllPosts = async (
-  params: PostQueryParams = {}
+  params: PostQueryParams = {},
 ): Promise<PostsResponse> => {
   try {
     const { data } = await api.get<PostsResponse>(BASE_URL, {
       params: {
-        populate: params.populate || false,
         limit: params.limit || 10,
         offset: params.offset || 0,
       },
@@ -48,13 +46,12 @@ export const getAllPosts = async (
 
 export const getPostsByHandle = async (
   handle: string,
-  params: Omit<PostQueryParams, 'handle'> = {}
+  params: Omit<PostQueryParams, 'handle'> = {},
 ): Promise<PostsResponse> => {
   try {
     const { data } = await api.get<PostsResponse>(BASE_URL, {
       params: {
         handle,
-        populate: params.populate || false,
         limit: params.limit || 10,
         offset: params.offset || 0,
       },
@@ -64,7 +61,7 @@ export const getPostsByHandle = async (
     if (axios.isAxiosError(error)) {
       throw new Error(
         error.response?.data?.error ||
-          `Failed to fetch posts for handle: ${handle}`
+          `Failed to fetch posts for handle: ${handle}`,
       );
     }
     throw error;
@@ -72,7 +69,7 @@ export const getPostsByHandle = async (
 };
 
 export const createPost = async (
-  data: ICreatePostDto | FormData
+  data: ICreatePostDto | FormData,
 ): Promise<{ data: IPost; message: string }> => {
   try {
     const headers: Record<string, string> = {};
@@ -94,14 +91,4 @@ export const createPost = async (
     }
     throw error;
   }
-};
-
-// Helper function to validate and format query params
-export const formatQueryParams = (params: PostQueryParams): PostQueryParams => {
-  return {
-    populate: Boolean(params.populate),
-    limit: Math.max(1, Math.min(100, Number(params.limit) || 10)),
-    offset: Math.max(0, Number(params.offset) || 0),
-    ...(params.handle && { handle: params.handle }),
-  };
 };

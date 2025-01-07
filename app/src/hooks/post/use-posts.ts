@@ -8,16 +8,15 @@ import {
 
 // Hook for fetching all posts
 export const useAllPosts = (params: PostQueryParams = {}) => {
-  const { limit = 10, enabled = true, populate = false } = params;
+  const { limit = 10, enabled = true } = params;
 
   return useInfiniteQuery<PostsResponse, Error>({
-    queryKey: ['posts', 'all', { limit, populate }],
+    queryKey: ['posts', 'all', { limit }],
     queryFn: async ({ pageParam = 0 }) => {
       try {
         const data = await getAllPosts({
           limit,
           offset: pageParam as number,
-          populate,
         });
         return data;
       } catch (error) {
@@ -36,16 +35,15 @@ export const useAllPosts = (params: PostQueryParams = {}) => {
 };
 
 export const useUserPosts = (handle: string, params: PostQueryParams = {}) => {
-  const { limit = 10, enabled = true, populate = false } = params;
+  const { limit = 10, enabled = true } = params;
 
   return useInfiniteQuery<PostsResponse, Error>({
-    queryKey: ['posts', 'user', handle, { limit, populate }],
+    queryKey: ['posts', 'user', handle, { limit }],
     queryFn: async ({ pageParam = 0 }) => {
       try {
         return await getPostsByHandle(handle, {
           limit,
           offset: pageParam as number,
-          populate,
         });
       } catch (error) {
         throw error instanceof Error
